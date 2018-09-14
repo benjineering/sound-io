@@ -1,11 +1,14 @@
 require 'sound_io/version'
 require 'sound_io/device'
-
 require 'ffi'
 
-module SoundIo
-	extend FFI::Library
-=begin
+module SoundIO
+  extend FFI::Library
+  
+  # TODO:
+  # A pointer to a function that takes a pointer and an integer
+  # layout :function1, callback([:pointer, :int], :void)
+
 	class SoundIo < FFI::Struct
 		layout(
 			userdata: :pointer,
@@ -19,7 +22,4 @@ module SoundIo
 			jack_error_callback: :pointer
 		)
 	end
-=end
 end
-
-# TODO: layout :function1, callback([:pointer, :int], :void)  # A pointer to a function that takes a pointer and an integer

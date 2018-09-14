@@ -1,10 +1,7 @@
 require 'ffi'
 
-module SoundIo
+module SoundIO
 	class SoundIoDevice < FFI::Struct
-		layout (
-			
-		)
-					
+		# TODO					
 	end
 end
