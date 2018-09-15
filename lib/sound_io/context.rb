@@ -44,5 +44,9 @@ module SoundIO
     def disconnect
       SoundIO.soundio_disconnect(self)
     end
+
+    def flush_events
+      SoundIO.soundio_flush_events(self)
+    end
   end
 end
