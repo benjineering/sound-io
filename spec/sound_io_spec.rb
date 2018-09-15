@@ -30,15 +30,15 @@ RSpec.describe SoundIO do
   end
 
   describe '.soundio_create' do
-    it 'returns a SoundIO instance' do
-      expect(SoundIO.soundio_create).to be_instance_of(SoundIO::Instance)
+    it 'returns a context' do
+      expect(SoundIO.soundio_create).to be_instance_of(SoundIO::Context)
     end
   end
 
   describe '.soundio_destroy' do
-    it 'destroys the passed instance' do
-      instance = SoundIO.soundio_create
-      expect { SoundIO.soundio_destroy(instance) }.not_to raise_error
+    it 'destroys the passed context' do
+      context = SoundIO.soundio_create
+      expect { SoundIO.soundio_destroy(context) }.not_to raise_error
     end
   end
 

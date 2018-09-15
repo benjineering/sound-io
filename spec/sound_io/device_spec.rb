@@ -4,6 +4,8 @@ RSpec.describe SoundIO::Device do
   end
 
   skip '#=' do
+
+    # TODO: get from instance
     let(:a) do
       d = SoundIO::Device.new
       d.name = 'a'

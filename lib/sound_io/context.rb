@@ -3,12 +3,12 @@ require 'sound_io'
 require 'sound_io/enums'
 
 module SoundIO
-  class Instance < FFI::ManagedStruct
+  class Context < FFI::ManagedStruct
     layout(
       userdata: :pointer,
-      on_devices_change: callback([Instance.ptr], :void),
-      on_backend_disconnect: callback([Instance.ptr, :int], :void),
-      on_events_signal: callback([Instance.ptr], :void),
+      on_devices_change: callback([Context.ptr], :void),
+      on_backend_disconnect: callback([Context.ptr, :int], :void),
+      on_events_signal: callback([Context.ptr], :void),
       current_backend: :backend,
       app_name: :string,
       emit_rtprio_warning: callback([], :void),

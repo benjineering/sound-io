@@ -1,5 +1,5 @@
 require 'sound_io'
-require 'sound_io/instance'
+require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
 require 'sound_io/sample_rate_range'
@@ -8,7 +8,7 @@ require 'ffi'
 module SoundIO
 	class Device < FFI::Struct
 		layout(
-			soundio: Instance.ptr,
+			soundio: Context.ptr,
 			id: :pointer,
 			name: :pointer,
 			aim: :aim,

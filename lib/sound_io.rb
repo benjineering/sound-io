@@ -1,6 +1,6 @@
 require 'sound_io/version'
 require 'sound_io/device'
-require 'sound_io/instance'
+require 'sound_io/context'
 require 'sound_io/enums'
 require 'ffi'
 
@@ -14,9 +14,10 @@ module SoundIO
 	attach_function :soundio_version_minor, [], :int
 	attach_function :soundio_version_patch, [], :int
 
-	# instances
-	attach_function :soundio_create, [], Instance.ptr
-	attach_function :soundio_destroy, [Instance.ptr], :void
+	# contexts
+	attach_function :soundio_create, [], Context.ptr
+	attach_function :soundio_destroy, [Context.ptr], :void
+	attach_function :soundio_connect, [Context.ptr], :int
 
 	# devices
 	attach_function :soundio_device_equal, [Device.ptr, Device.ptr], :bool
