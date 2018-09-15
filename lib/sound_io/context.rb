@@ -23,5 +23,26 @@ module SoundIO
     def self.release(ptr)
       SoundIO.soundio_destroy(ptr)
     end
+
+    def backend
+      self[:current_backend]
+    end
+
+    def connect(backend = nil)
+      error =
+      if backend.nil?
+        SoundIO.soundio_connect(self)
+      else
+        SoundIO.soundio_connect_backend(self, backend)
+      end
+
+      unless error == :none
+        raise Error.new('Error connecting context', error)
+      end
+    end
+
+    def disconnect
+      SoundIO.soundio_disconnect(self)
+    end
   end
 end

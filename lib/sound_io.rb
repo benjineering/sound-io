@@ -2,6 +2,7 @@ require 'sound_io/version'
 require 'sound_io/device'
 require 'sound_io/context'
 require 'sound_io/enums'
+require 'sound_io/error'
 require 'ffi'
 
 module SoundIO
@@ -13,6 +14,9 @@ module SoundIO
 	attach_function :soundio_version_major, [], :int
 	attach_function :soundio_version_minor, [], :int
 	attach_function :soundio_version_patch, [], :int
+
+	# errors
+	attach_function :soundio_strerror, [:error], :string
 
 	# contexts
 	attach_function :soundio_create, [], Context.ptr
