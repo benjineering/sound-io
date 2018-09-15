@@ -6,4 +6,8 @@ RSpec.describe SoundIO::Context do
   end
 
   skip '.release'
+
+  skip '.connect'
+
+  skip '.disconnect'
 end

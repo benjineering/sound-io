@@ -105,4 +105,23 @@ module SoundIO
     :Aux14,
     :Aux15   
   ])
+
+  enum(:error, [
+    :none,
+    :NoMem,
+    :InitAudioBackend,
+    :SystemResources,
+    :OpeningDevice,
+    :NoSuchDevice,
+    :invalid,
+    :BackendUnavailable,
+    :Streaming,
+    :IncompatibleDevice,
+    :NoSuchClient,
+    :IncompatibleBackend,
+    :BackendDisconnected,
+    :Interrupted,
+    :Underflow,
+    :EncodingString
+  ])
 end

@@ -17,7 +17,9 @@ module SoundIO
 	# contexts
 	attach_function :soundio_create, [], Context.ptr
 	attach_function :soundio_destroy, [Context.ptr], :void
-	attach_function :soundio_connect, [Context.ptr], :int
+	attach_function :soundio_connect, [Context.ptr], :error
+	attach_function :soundio_connect_backend, [Context.ptr, :backend], :error
+	attach_function :soundio_disconnect, [Context.ptr], :void
 
 	# devices
 	attach_function :soundio_device_equal, [Device.ptr, Device.ptr], :bool
