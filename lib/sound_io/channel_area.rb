@@ -3,6 +3,9 @@ require 'sound_io/enums'
 
 module SoundIO
   class ChannelArea < FFI::Struct
-    # TODO
+    layout(
+      ptr: :pointer,
+      step: :int
+    )
   end
 end

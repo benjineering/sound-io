@@ -2,6 +2,6 @@ require 'ffi'
 
 module SoundIO
   class RingBuffer < FFI::Struct
-    # TODO
+    # TODO: ???
   end
 end
