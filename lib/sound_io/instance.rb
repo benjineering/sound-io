@@ -1,8 +1,9 @@
 require 'ffi'
+require 'sound_io'
 require 'sound_io/enums'
 
 module SoundIO
-  class Instance < FFI::Struct
+  class Instance < FFI::ManagedStruct
     layout(
       userdata: :pointer,
       on_devices_change: callback([Instance.ptr], :void),
@@ -14,5 +15,13 @@ module SoundIO
       jack_info_callback: callback([:string], :void),
       jack_error_callback: callback([:string], :void)
     )
+
+    def self.new(*args)
+      SoundIO.soundio_create
+    end
+
+    def self.release(ptr)
+      SoundIO.soundio_destroy(ptr)
+    end
   end
 end

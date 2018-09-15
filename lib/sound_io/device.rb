@@ -1,3 +1,4 @@
+require 'sound_io'
 require 'sound_io/instance'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
@@ -8,8 +9,8 @@ module SoundIO
 	class Device < FFI::Struct
 		layout(
 			soundio: Instance.ptr,
-			id: :string,
-			name: :string,
+			id: :pointer,
+			name: :pointer,
 			aim: :aim,
 			layouts: ChannelLayout.ptr,
 			layout_count: :int,
@@ -27,5 +28,13 @@ module SoundIO
 			ref_count: :int,
 			probe_error: :int
 		)
+
+		def name=(str)
+			self[:name] = FFI::MemoryPointer.from_string(str)
+		end
+
+		def ==(other)
+			SoundIO.soundio_device_equal(self, other)
+		end
 	end
 end
