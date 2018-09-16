@@ -84,8 +84,8 @@ module SoundIO
 
   # outstream
 	attach_function :soundio_outstream_destroy, [OutStream.ptr], :void
-	attach_function :soundio_outstream_open, [OutStream.ptr], :int
-	attach_function :soundio_outstream_start, [OutStream.ptr], :int
+	attach_function :soundio_outstream_open, [OutStream.ptr], :error
+	attach_function :soundio_outstream_start, [OutStream.ptr], :error
 	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :int
 	attach_function :soundio_outstream_end_write, [OutStream.ptr], :int
 	attach_function :soundio_outstream_clear_buffer, [OutStream.ptr], :int
@@ -94,8 +94,8 @@ module SoundIO
 
   # instream
 	attach_function :soundio_instream_destroy, [InStream.ptr], :void
-	attach_function :soundio_instream_open, [InStream.ptr], :int
-	attach_function :soundio_instream_start, [InStream.ptr], :int
+	attach_function :soundio_instream_open, [InStream.ptr], :error
+	attach_function :soundio_instream_start, [InStream.ptr], :error
 	attach_function :soundio_instream_begin_read, [InStream.ptr, :pointer, :pointer], :int
 	attach_function :soundio_instream_end_read, [InStream.ptr], :int
 	attach_function :soundio_instream_pause, [InStream.ptr, :bool], :int
