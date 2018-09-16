@@ -17,7 +17,9 @@ module SoundIO
     )
 
     def self.new(*args)
-      SoundIO.soundio_create
+      ctx = SoundIO.soundio_create
+      raise Error.new('Out of memory') if ctx.nil?
+      ctx
     end
 
     def self.release(ptr)
@@ -47,6 +49,17 @@ module SoundIO
 
     def flush_events
       SoundIO.soundio_flush_events(self)
+    end
+
+    def output_device(idx = nil)
+      idx = SoundIO.soundio_default_output_device_index(self) if idx.nil?
+      return nil if idx < 0
+
+      dev = SoundIO.soundio_get_output_device(self, idx)
+      return nil if dev.nil?
+
+      SoundIO.soundio_device_ref(dev) # unref called in Device.release
+      dev
     end
   end
 end

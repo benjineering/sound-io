@@ -1,10 +1,11 @@
 RSpec.describe SoundIO::Device do
+  skip '.release'
+
   describe '#name=' do
     skip 'sets name from string'
   end
 
   skip '#=' do
-
     # TODO: get from instance
     let(:a) do
       d = SoundIO::Device.new

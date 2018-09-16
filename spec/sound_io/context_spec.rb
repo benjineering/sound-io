@@ -21,4 +21,6 @@ RSpec.describe SoundIO::Context do
   skip '#disconnect'
 
   skip '#flush_events'
+
+  skip '#output_device'
 end

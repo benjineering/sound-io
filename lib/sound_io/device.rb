@@ -6,7 +6,10 @@ require 'sound_io/sample_rate_range'
 require 'ffi'
 
 module SoundIO
-	class Device < FFI::Struct
+
+	# This class shouldn't be created by calling #new
+	# Only create by calling Context methods
+	class Device < FFI::ManagedStruct
 		layout(
 			soundio: Context.ptr,
 			id: :pointer,
@@ -28,6 +31,11 @@ module SoundIO
 			ref_count: :int,
 			probe_error: :int
 		)
+
+		def self.release(ptr)
+			# soundio_device_ref is called upon creation in Context
+      soundio_device_unref(ptr)
+    end
 
 		def name=(str)
 			self[:name] = FFI::MemoryPointer.from_string(str)

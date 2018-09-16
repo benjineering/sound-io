@@ -1,3 +1,6 @@
 # SoundIO
+## A Ruby gem FFI wrapper for libstdio
 
-An Ruby gem FFI wrapper for libstdio
+### Basic Usage
+
+    

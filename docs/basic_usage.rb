@@ -1,10 +1,4 @@
-#!/usr/bin/env ruby
-
-require 'bundler/setup'
 require 'sound_io'
-
-#require 'irb'
-#IRB.start(__FILE__)
 
 sio = SoundIO::Context.new
 sio.connect
