@@ -41,5 +41,27 @@ module SoundIO
       error = SoundIO.soundio_outstream_start(self)
       raise Error.new('Error starting out stream', error) unless error == :none
     end
+
+    def write_callback=(proc)
+      # TODO
+    end
+
+    def write(channelArea_array, frame_count_pointer)
+      raise 'Block required' unless block_given?
+
+      error = SoundIO.soundio_outstream_begin_write(self, ChannelArea_array, frame_count_pointer)
+      
+      unless error == :none
+        raise Error.new('Error calling soundio_outstream_begin_write', error)
+      end
+
+      yield
+
+      error = SoundIO.soundio_outstream_end_write(self)
+
+      unless error == :none
+        raise Error.new('Error calling soundio_outstream_end_write', error)
+      end
+    end
   end
 end

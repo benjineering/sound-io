@@ -4,4 +4,8 @@ RSpec.describe SoundIO::OutStream do
   skip '#open'
 
   skip '#start'
+
+  skip '#write_callback'
+
+  skip '#write'
 end
