@@ -15,5 +15,9 @@ module SoundIO
         super("#{msg} - #{@string}")
       end
     end
+
+    def self.no_memory
+      super('Out of memory')
+    end
   end
 end

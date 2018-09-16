@@ -10,5 +10,8 @@ sio = SoundIO::Context.new
 sio.connect
 sio.flush_events
 
-out = sio.output_device
-puts out
+out_dev = sio.output_device
+raise 'No output device' if out_dev.nil?
+
+out_stream = out_dev.create_stream(format: :float32be)
+puts out_stream[:format]

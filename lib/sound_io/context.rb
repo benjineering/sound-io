@@ -18,7 +18,7 @@ module SoundIO
 
     def self.new(*args)
       ctx = SoundIO.soundio_create
-      raise Error.new('Out of memory') if ctx.nil?
+      raise Error.no_memory if ctx.nil?
       ctx
     end
 

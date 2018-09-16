@@ -3,6 +3,7 @@ require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
 require 'sound_io/sample_rate_range'
+require 'sound_io/error'
 require 'ffi'
 
 module SoundIO
@@ -43,6 +44,17 @@ module SoundIO
 
 		def ==(other)
 			SoundIO.soundio_device_equal(self, other)
+		end
+
+		def create_stream(opts = {})
+			stm = SoundIO.soundio_outstream_create(self)
+			raise Error.no_memory if stm.nil?
+
+			unless opts.empty?
+				opts.each { |k, v| stm[k.to_sym] = v }
+			end
+
+			stm
 		end
 	end
 end
