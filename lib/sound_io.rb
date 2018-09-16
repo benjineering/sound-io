@@ -13,8 +13,10 @@ require 'ffi'
 module SoundIO
 	extend FFI::Library
 	ffi_lib 'soundio'
+
+	# kneel before the FFI monolith
 	
-	# static
+	# module
 	attach_function :soundio_version_string, [], :string
 	attach_function :soundio_version_major, [], :int
 	attach_function :soundio_version_minor, [], :int
