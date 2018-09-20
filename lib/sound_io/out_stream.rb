@@ -42,10 +42,16 @@ module SoundIO
       raise Error.new('Error starting out stream', error) unless error == :none
     end
 
-    def write_callback=(proc)
-      # TODO
+    # TODO: this is probably not very efficient...
+    def callback
+      raise 'Block required' unless block_given?
+
+      self[:write_callback] = lambda do |stream, frame_min, frame_max|
+        yield(frame_min, frame_max, stream) # param order changed so we can ignore the stream
+      end
     end
 
+    # this probably isn't correct
     def write(channelArea_array, frame_count_pointer)
       raise 'Block required' unless block_given?
 

@@ -61,5 +61,9 @@ module SoundIO
       SoundIO.soundio_device_ref(dev) # unref called in Device.release
       dev
     end
+
+    def wait_events
+      SoundIO.soundio_wait_events
+    end
   end
 end

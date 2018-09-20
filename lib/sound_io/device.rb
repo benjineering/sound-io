@@ -49,7 +49,7 @@ module SoundIO
 		def create_stream(opts = {})
 			stm = SoundIO.soundio_outstream_create(self)
 			raise Error.no_memory if stm.nil?
-			opts.each { |k, v| stm[k.to_sym] = v } unless opts.empty?
+			opts.each { |k, v| stm[k.to_sym] = v }
 			stm
 		end
 	end
