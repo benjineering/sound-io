@@ -51,6 +51,32 @@ module SoundIO
       SoundIO.soundio_flush_events(self)
     end
 
+    def default_output_device_index
+      SoundIO.soundio_default_output_device_index(self)
+    end    
+
+    def default_input_device_index
+      SoundIO.soundio_default_input_device_index(self)
+    end
+
+    def input_devices
+      count = SoundIO.soundio_input_device_count(self)
+      return [] if count < 1
+
+      (0..(count - 1)).collect do |i|
+        SoundIO.soundio_get_input_device(self, i)
+      end
+    end
+
+    def output_devices
+      count = SoundIO.soundio_output_device_count(self)
+      return [] if count < 1
+
+      (0..(count - 1)).collect do |i|
+        SoundIO.soundio_get_output_device(self, i)
+      end
+    end
+
     def output_device(idx = nil)
       idx = SoundIO.soundio_default_output_device_index(self) if idx.nil?
       return nil if idx < 0

@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'sound_io'
 
 SECONDS_OFFSET = 0

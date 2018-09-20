@@ -42,6 +42,23 @@ module SoundIO
 			self[:name] = FFI::MemoryPointer.from_string(str)
 		end
 
+		def name
+			self[:name].read_string
+		end
+
+		def id
+			self[:id].read_string
+		end
+
+		def probe_error
+			self[:probe_error]
+		end
+
+		def probe_error_str
+			return nil if self[:probe_error].nil?
+			SoundIO.soundio_strerror(self[:probe_error])
+		end
+
 		def ==(other)
 			SoundIO.soundio_device_equal(self, other)
 		end
@@ -51,6 +68,10 @@ module SoundIO
 			raise Error.no_memory if stm.nil?
 			opts.each { |k, v| stm[k.to_sym] = v }
 			stm
+		end
+
+		def raw?
+			self[:is_raw]
 		end
 	end
 end

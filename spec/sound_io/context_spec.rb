@@ -22,5 +22,15 @@ RSpec.describe SoundIO::Context do
 
   skip '#flush_events'
 
+  skip '#default_output_device_index'
+
+  skip '#default_input_device_index'
+
+  skip '#input_devices'
+
+  skip '#output_devices'
+
   skip '#output_device'
+
+  skip '#wait_events'
 end

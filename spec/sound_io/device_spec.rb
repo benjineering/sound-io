@@ -1,9 +1,17 @@
 RSpec.describe SoundIO::Device do
   skip '.release'
 
+  skip '#name'
+
   describe '#name=' do
     skip 'sets name from string'
   end
+
+  skip '#id'
+
+  skip '#probe_error'
+
+  skip '#probe_error_str'
 
   skip '#=' do
     # TODO: get from instance
@@ -39,4 +47,6 @@ RSpec.describe SoundIO::Device do
   end
 
   skip '#create_stream'
+
+  skip '#raw?'
 end
