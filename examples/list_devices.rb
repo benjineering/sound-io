@@ -12,7 +12,7 @@ end
 def print_device(device, is_default)
   default_str = is_default ? ' (default)' : ''
   raw_str = device.raw? ? ' (raw)' : ''
-  puts "#{device.name}#{default_str}#{raw_str}"
+  puts "\n#{device.name}#{default_str}#{raw_str}"
   puts "id: #{device.id}"
 
   unless device.probe_error.nil?
@@ -44,7 +44,6 @@ def print_device(device, is_default)
 
   unless device.current_format.invalid?
     puts "  current format: #{device.current_format}"
-
   end
 
   puts "  min software latency: #{device.software_latency_min} sec"
@@ -59,12 +58,12 @@ def list_devices(sio)
   default_input_idx = sio.default_input_device_index
   default_output_idx = sio.default_output_device_index
 
-  puts '--------Input Devices--------'
+  puts "\n--------Input Devices--------"
   sio.input_devices.each_with_index do |device, i|
     print_device(device, default_input_idx == i)
   end
 
-  puts '--------Output Devices--------'
+  puts "\n--------Output Devices--------"
   sio.output_devices.each_with_index do |device, i|
     print_device(device, default_output_idx == i)
   end
