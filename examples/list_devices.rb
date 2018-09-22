@@ -1,9 +1,11 @@
 require 'bundler/setup'
 require 'sound_io'
 
+BACKEND = :core_audio
+
 def print_channel_layout(layout)
   if layout.name
-    puts "#{layout.name}"
+    puts "    #{layout.name}"
   else
     layout.channels.first.each { |channel| puts channel.name }
   end
@@ -35,22 +37,23 @@ def print_device(device, is_default)
     puts "    #{range.min} - #{range.max}"
   end
 
-  unless device.sample_rate_current.nil?
-    puts " current sample rate: #{device.sample_rate_current}"
+  unless device.current_sample_rate.nil?
+    puts " current sample rate: #{device.current_sample_rate}"
   end
 
   puts ' formats:'
   puts device.formats.collect { |f| f.to_s }.join(', ')
 
-  unless device.current_format.invalid?
+  unless device.current_format == :invalid
     puts "  current format: #{device.current_format}"
   end
 
-  puts "  min software latency: #{device.software_latency_min} sec"
-  puts "  max software latency: #{device.software_latency_max} sec"
+  puts '  software latency:'
+  puts "    min: #{device.min_software_latency} sec"
+  puts "    max: #{device.max_software_latency} sec"
 
-  unless device.software_latency_current == 0.0
-    puts "  current software latency: #{device.software_latency_current} sec"
+  unless device.current_software_latency == 0.0
+    puts "    current: #{device.current_software_latency} sec"
   end
 end
 
@@ -69,7 +72,7 @@ def list_devices(sio)
   end
 end
 
-sio = SoundIO::Context.new(:dummy)
+sio = SoundIO::Context.new(BACKEND)
 sio.connect
 sio.flush_events
 list_devices(sio)

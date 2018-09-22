@@ -49,4 +49,36 @@ RSpec.describe SoundIO::Device do
   skip '#create_stream'
 
   skip '#raw?'
+
+  skip '#layout_count'
+
+  skip '#layouts'
+
+  skip '#current_layout'
+
+  skip '#sample_rate_count'
+
+  skip '#sample_rates'
+
+  skip '#sample_rate_current'
+
+  skip '#current_sample_rate'
+
+  skip '#format_count'
+
+  skip '#formats'
+
+  skip '#current_format'
+
+  skip '#software_latency_min'
+
+  skip '#min_software_latency'
+
+  skip '#software_latency_max'
+
+  skip '#max_software_latency'
+
+  skip '#software_latency_current'
+
+  skip '#current_software_latency'
 end
