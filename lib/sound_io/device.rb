@@ -39,15 +39,18 @@ module SoundIO
     end
 
 		def name=(str)
+			@name = str
 			self[:name] = FFI::MemoryPointer.from_string(str)
 		end
 
 		def name
-			self[:name].read_string
+			@name = self[:name].read_string if @name.nil?
+			@name
 		end
 
 		def id
-			self[:id].read_string
+			@id = self[:id].read_string if @id.nil?
+			@id
 		end
 
 		def probe_error
