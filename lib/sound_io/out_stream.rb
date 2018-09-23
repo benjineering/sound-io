@@ -1,9 +1,9 @@
-require 'ffi'
 require 'sound_io'
 require 'sound_io/error'
 require 'sound_io/device'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
+require 'ffi'
 
 module SoundIO
   class OutStream < FFI::ManagedStruct
@@ -11,12 +11,12 @@ module SoundIO
       device: Device.ptr,
       format: :format,
       sample_rate: :int,
-      layout: ChannelLayout.ptr,
+      layout: ChannelLayout,
       software_latency: :double,
       userdata: :pointer,
       write_callback: callback([OutStream.ptr, :int, :int], :void),
       underflow_callback: callback([OutStream.ptr], :void),
-      error_callback: callback([OutStream.ptr, :int], :void),
+      error_callback: callback([OutStream.ptr, :error], :void),
       name: :string,
       non_terminal_hint: :bool,
       bytes_per_frame: :int,

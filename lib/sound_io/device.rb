@@ -12,25 +12,25 @@ module SoundIO
 	# Only create by calling Context methods
 	class Device < FFI::ManagedStruct
 		layout(
-			soundio: Context.ptr,
-			id: :pointer,
-			name: :pointer,
-			aim: :aim,
-			layouts: :pointer,
-			layout_count: :int,
-			current_layout: ChannelLayout,
-			formats: :pointer,
-			format_count: :int,
-			current_format: :format,
-			sample_rates: :pointer,
-			sample_rate_count: :int,
-			sample_rate_current: :int,
-			software_latency_min: :double,
-			software_latency_max: :double,
-			software_latency_current: :double,
-			is_raw: :bool,
-			ref_count: :int,
-			probe_error: :error
+			:soundio, Context.ptr,
+			:id, :pointer,
+			:name, :pointer,
+			:aim, :aim,
+			:layouts, :pointer,
+			:layout_count, :int,
+			:current_layout, ChannelLayout,
+			:formats, :pointer,
+			:format_count, :int,
+			:current_format, :format,
+			:sample_rates, :pointer,
+			:sample_rate_count, :int,
+			:sample_rate_current, :int,
+			:software_latency_min, :double,
+			:software_latency_max, :double,
+			:software_latency_current, :double,
+			:is_raw, :bool,
+			:ref_count, :int,
+			:probe_error, :error
     )
 
 		def self.release(ptr)
@@ -54,7 +54,7 @@ module SoundIO
 		end
 
 		def probe_error
-			e = SoundIO::Error.new('Probe error', self[:probe_error])
+			SoundIO::Error.new('Probe error', self[:probe_error])
 		end
 
 		def probe_error_str
@@ -99,7 +99,7 @@ module SoundIO
       self[:sample_rate_count]
     end
     
-    def sample_rates
+		def sample_rates
       # TODO: DRY arrays
 			rate_size = SoundIO::SampleRateRange.size
 
@@ -120,14 +120,9 @@ module SoundIO
       self[:format_count]
     end
 
-    def formats
-      # TODO: DRY struct and enum arrays & this properly
-			format_size = FFI::Pointer.size
-
-			(0..(self[:format_count] - 1)).collect do |i|
-				increment = i * format_size
-				puts "??!!!???!! #{self[:formats]}"
-      end
+		def formats			
+			# TODO: this properly
+			[:invalid]
     end
 
     def current_format

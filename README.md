@@ -6,6 +6,7 @@
 
 ### TODO
 
+- make format a class
 - check libsoundio version on install and in specs
 - extend FFI to DRY up:
   - char * to string

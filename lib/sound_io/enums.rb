@@ -35,7 +35,7 @@ module SoundIO
 
   # TODO: snake case
   enum(:channel_id, [
-    :Invalid,
+    :invalid,
     :FrontLeft,
     :FrontRight,
     :FrontCenter,

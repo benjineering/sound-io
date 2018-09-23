@@ -19,7 +19,9 @@ RSpec.describe SoundIO::Error do
     end
   end
 
-  describe '#nil?'
-
   describe '#none?'
+
+  describe '#to_sym'
+
+  describe '#=='
 end

@@ -16,12 +16,16 @@ module SoundIO
       end
     end
 
-    def nil?
+    def none?
       @symbol == :none
     end
 
-    def none?
-      @symbol == :none
+    def to_sym
+      @symbol
+    end
+
+    def ==(sym)
+      to_sym == sym.to_sym
     end
 
     def self.no_memory

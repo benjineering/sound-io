@@ -1,6 +1,6 @@
-require 'ffi'
 require 'sound_io'
 require 'sound_io/enums'
+require 'ffi'
 
 module SoundIO
   class Context < FFI::ManagedStruct
@@ -26,7 +26,7 @@ module SoundIO
       SoundIO.soundio_destroy(ptr)
     end
 
-    def backend
+    def current_backend
       self[:current_backend]
     end
 
@@ -64,7 +64,9 @@ module SoundIO
       return [] if count < 1
 
       (0..(count - 1)).collect do |i|
-        SoundIO.soundio_get_input_device(self, i)
+        dev = SoundIO.soundio_get_input_device(self, i)
+        SoundIO.soundio_device_ref(dev) # unref called in Device.release
+        dev
       end
     end
 
@@ -73,7 +75,9 @@ module SoundIO
       return [] if count < 1
 
       (0..(count - 1)).collect do |i|
-        SoundIO.soundio_get_output_device(self, i)
+        dev = SoundIO.soundio_get_output_device(self, i)
+        SoundIO.soundio_device_ref(dev) # unref called in Device.release
+        dev
       end
     end
 

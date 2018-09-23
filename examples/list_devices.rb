@@ -44,10 +44,7 @@ def print_device(device, is_default)
 
   puts '  formats:'
   puts device.formats.collect { |f| f.to_s }.join(', ')
-
-  unless device.current_format == :invalid
-    puts "  current format: #{device.current_format}"
-  end
+  puts "  current format: #{device.current_format}"
 
   puts '  software latency:'
   puts "    min: #{device.min_software_latency} sec"
