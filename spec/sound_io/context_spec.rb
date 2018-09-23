@@ -9,12 +9,12 @@ RSpec.describe SoundIO::Context do
 
   skip '.release'
 
-  skip '#backend'
+  skip '#current_backend'
 
   describe '#connect' do
     it 'sets the backend' do
       context.connect(:dummy)
-      expect(context.backend).to eq :dummy
+      expect(context.current_backend).to eq :dummy
     end
   end
 
