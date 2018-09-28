@@ -1,12 +1,13 @@
 require 'sound_io/enums'
+require 'sound_io/sound_io'
 require 'ffi'
 
 module SoundIO
   class ChannelLayout < FFI::Struct
     layout(
-      name: :string,
-      channel_count: :int,
-      channels: :pointer
+      :name, :string,
+      :channel_count, :int,
+      :channels, [:channel_id, SoundIO.max_channels]
     )
 
     def name

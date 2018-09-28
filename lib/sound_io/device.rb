@@ -93,7 +93,7 @@ module SoundIO
 
 		def current_layout
 
-			require 'pry'; binding.pry
+			#require 'pry'; binding.pry
 
 			self[:current_layout]
     end
@@ -104,9 +104,6 @@ module SoundIO
     
 		def sample_rates
 			# TODO: DRY arrays
-			
-			require 'pry'; binding.pry
-
 			rate_size = SoundIO::SampleRateRange.size
 
 			(0..(self[:sample_rate_count] - 1)).collect do |i|
