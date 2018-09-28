@@ -35,7 +35,7 @@ def print_device(device, is_default)
 
   puts '  sample rates:'
   device.sample_rates.each do |rate|
-    puts "    #{range.min} - #{range.max}"
+    puts "    #{rate.min} - #{rate.max}"
   end
 
   unless device.current_sample_rate.nil?
