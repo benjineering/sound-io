@@ -8,6 +8,7 @@ require 'sound_io/out_stream'
 require 'sound_io/in_stream'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
+require 'sound_io/sound_io' # ext
 require 'ffi'
 
 module SoundIO

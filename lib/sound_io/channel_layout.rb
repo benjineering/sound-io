@@ -4,13 +4,13 @@ require 'ffi'
 module SoundIO
   class ChannelLayout < FFI::Struct
     layout(
-      name: :pointer,
+      name: :string,
       channel_count: :int,
       channels: :pointer
     )
 
     def name
-      self[:name].read_string
+      self[:name]
     end
 
     def channel_count
@@ -18,7 +18,7 @@ module SoundIO
     end
 
     def channels
-      # TODO: this properly
+      # TODO: this properly - it's an array of enums
       [:invalid]
     end
   end

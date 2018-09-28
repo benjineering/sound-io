@@ -42,8 +42,7 @@ def print_device(device, is_default)
     puts "  current sample rate: #{device.current_sample_rate}"
   end
 
-  puts '  formats:'
-  puts device.formats.collect { |f| f.to_s }.join(', ')
+  puts '  formats: ' +  device.formats.collect { |f| f.to_s }.join(' ')
   puts "  current format: #{device.current_format}"
 
   puts '  software latency:'

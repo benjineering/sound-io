@@ -8,6 +8,12 @@ RSpec.describe SoundIO do
       expect(SoundIO::VERSION).to be_instance_of String
     end
   end
+
+  describe '.max_channels' do
+    it 'returns a number' do
+      expect(SoundIO.max_channels).to be_instance_of Fixnum
+    end
+  end
   
   describe '.soundio_version_string' do
     it 'returns a string' do
