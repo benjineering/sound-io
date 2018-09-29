@@ -10,6 +10,7 @@ require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
 require 'sound_io/sound_io' # ext
+
 require 'ffi'
 
 module SoundIO
@@ -38,7 +39,7 @@ module SoundIO
 	attach_function :soundio_backend_count, [Context.ptr], :int
 	attach_function :soundio_get_backend, [Context.ptr, :int], :backend
 	attach_function :soundio_flush_events, [Context.ptr], :void
-	attach_function :soundio_wait_events, [Context.ptr], :void
+	attach_function :soundio_wait_events, [Context.ptr], :void, blocking: true
 	attach_function :soundio_wakeup, [Context.ptr], :void
 	attach_function :soundio_force_device_scan, [Context.ptr], :void	
 	attach_function :soundio_input_device_count, [Context.ptr], :int

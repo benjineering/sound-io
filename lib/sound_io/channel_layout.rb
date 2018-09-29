@@ -7,7 +7,7 @@ module SoundIO
     layout(
       :name, :string,
       :channel_count, :int,
-      :channels, [:channel_id, SoundIO.max_channels]
+      :channels, [:channel_id, SoundIO.MAX_CHANNELS]
     )
 
     def name

@@ -54,7 +54,7 @@ module SoundIO
 		end
 
 		def probe_error
-			SoundIO::Error.new('Probe error', self[:probe_error])
+			Error.new('Probe error', self[:probe_error])
 		end
 
 		def probe_error_str
@@ -66,11 +66,17 @@ module SoundIO
 			SoundIO.device_equal(self, other)
 		end
 
-		def create_stream(opts = {})
-			stm = SoundIO.outstream_create(self)
-			raise Error.no_memory if stm.nil?
-			opts.each { |k, v| stm[k.to_sym] = v }
-			stm
+		def create_out_stream(options = {})
+			stream = SoundIO.outstream_create(self)
+			raise Error.no_memory if stream.nil?
+			options.each { |k, v| stream[k.to_sym] = v }
+
+			if options[:format].nil?
+				raise Error.new('Device has no available layouts') if format_count < 1
+				stream.format = formats.first
+			end
+
+			stream
 		end
 
 		def raw?
@@ -83,11 +89,11 @@ module SoundIO
 
     def layouts
       # TODO: DRY arrays
-			layout_size = SoundIO::ChannelLayout.size
+			layout_size = ChannelLayout.size
 
 			(0..(self[:layout_count] - 1)).collect do |i|
 				increment = i * layout_size
-				SoundIO::ChannelLayout.new(self[:layouts] + increment)
+				ChannelLayout.new(self[:layouts] + increment)
       end
 		end
 
@@ -101,19 +107,17 @@ module SoundIO
     
 		def sample_rates
 			# TODO: DRY arrays
-			rate_size = SoundIO::SampleRateRange.size
+			rate_size = SampleRateRange.size
 
 			(0..(self[:sample_rate_count] - 1)).collect do |i|
 				increment = i * rate_size
-				SoundIO::SampleRateRange.new(self[:sample_rates] + increment)
+				SampleRateRange.new(self[:sample_rates] + increment)
 			end
     end
 
     def sample_rate_current
       self[:sample_rate_current] == 0 ? nil : self[:sample_rate_current]
     end
-    
-    alias_method :current_sample_rate, :sample_rate_current
 
     def format_count
       self[:format_count]
@@ -121,17 +125,17 @@ module SoundIO
 
 		def formats
 			# TODO: DRY arrays
-			format_size = SoundIO::FORMAT.native_type.size
+			format_size = FORMAT.native_type.size
 
 			(0..(self[:format_count] - 1)).collect do |i|
 				num = (self[:formats] + i).read(FORMAT.native_type)
-				sym = SoundIO::FORMAT[num]
-				SoundIO::Format.new(sym)
+				sym = FORMAT[num]
+				Format.new(sym)
 			end
     end
 
 		def current_format
-			format = SoundIO::Format.new(self[:current_format])
+			format = Format.new(self[:current_format])
 			format.invalid? ? nil : format
     end
 
@@ -139,18 +143,17 @@ module SoundIO
       self[:software_latency_min]
     end
 
-    alias_method :min_software_latency, :software_latency_min
-
     def software_latency_max
       self[:software_latency_max]
     end
 
-    alias_method :max_software_latency, :software_latency_max
-
     def software_latency_current
       self[:software_latency_current]
     end
-
+    
+    alias_method :current_sample_rate, :sample_rate_current
+    alias_method :min_software_latency, :software_latency_min
+    alias_method :max_software_latency, :software_latency_max
     alias_method :current_software_latency, :software_latency_current
 	end
 end

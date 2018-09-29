@@ -9,9 +9,9 @@ RSpec.describe SoundIO do
     end
   end
 
-  describe '.max_channels' do
+  describe '.MAX_CHANNELS' do
     it 'returns a number' do
-      expect(SoundIO.max_channels).to be_instance_of Fixnum
+      expect(SoundIO.MAX_CHANNELS).to be_instance_of Fixnum
     end
   end
   

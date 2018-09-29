@@ -9,6 +9,5 @@ VALUE max_channels() {
 
 void Init_sound_io() {
   rb_mSoundIO = rb_define_module("SoundIO");
-  //rb_define_const(rb_mSoundIO, "MAX_CHANNELS", UINT2NUM(SOUNDIO_MAX_CHANNELS));
-  rb_define_singleton_method(rb_mSoundIO, "max_channels", max_channels, 0);
+  rb_define_singleton_method(rb_mSoundIO, "MAX_CHANNELS", max_channels, 0);
 }

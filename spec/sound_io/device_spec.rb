@@ -46,7 +46,7 @@ RSpec.describe SoundIO::Device do
     end
   end
 
-  skip '#create_stream'
+  skip '#create_out_stream'
 
   skip '#raw?'
 

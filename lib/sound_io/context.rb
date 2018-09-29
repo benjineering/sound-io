@@ -93,7 +93,7 @@ module SoundIO
     end
 
     def wait_events
-      SoundIO.wait_events
+      SoundIO.wait_events(self)
     end
   end
 end
