@@ -15,9 +15,9 @@ RSpec.describe SoundIO do
     end
   end
   
-  describe '.soundio_version_string' do
+  describe '.version_string' do
     it 'returns a string' do
-      expect(SoundIO.soundio_version_string).to be_instance_of String
+      expect(SoundIO.version_string).to be_instance_of String
     end
   end
   

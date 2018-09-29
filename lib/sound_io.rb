@@ -26,10 +26,6 @@ module SoundIO
 	attach_function :soundio_have_backend, [:backend], :bool
 	attach_function :soundio_backend_name, [:backend], :string
 
-	def self.have_backend?(backend)
-		soundio_have_backend(backend)
-	end
-
 	# error
 	attach_function :soundio_strerror, [:error], :string
 
@@ -115,4 +111,18 @@ module SoundIO
 	attach_function :soundio_ring_buffer_fill_count, [RingBuffer.ptr], :int
 	attach_function :soundio_ring_buffer_free_count, [RingBuffer.ptr], :int
 	attach_function :soundio_ring_buffer_clear, [RingBuffer.ptr], :void
+
+	# alias soundio_ methods
+	class << self
+		prefix_rex = /^soundio_/
+
+		self.instance_methods.each do |sym|
+			str = sym.to_s
+
+			unless str.match(prefix_rex).nil?
+				short_sym = str.gsub(prefix_rex, '').to_sym
+				alias_method short_sym, sym
+			end
+		end
+	end
 end

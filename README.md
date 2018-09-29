@@ -6,7 +6,6 @@
 
 ### TODO
 
-- alias all module methods
 - fix MAX_CHANNELS
 - add examples to Rakefile
 - get basic_usage working
