@@ -42,15 +42,17 @@ def print_device(device, is_default)
     puts "  current sample rate: #{device.current_sample_rate}"
   end
 
-  puts '  formats: ' +  device.formats.collect { |f| f.to_s }.join(' ')
-  puts "  current format: #{device.current_format}"
+  puts '  formats: ' +  device.formats.collect { |f| f.to_s }.join(', ')
 
-  puts '  software latency:'
-  puts "    min: #{device.min_software_latency} sec"
-  puts "    max: #{device.max_software_latency} sec"
+  unless device.current_format.nil?
+    puts "  current format: #{device.current_format}"
+  end
 
-  unless device.current_software_latency == 0.0
-    puts "   current: #{device.current_software_latency} sec"
+  puts "  min software latency: #{device.min_software_latency.round(8)} sec"
+  puts "  max software latency: #{device.max_software_latency.round(8)} sec"
+
+  if device.current_software_latency > 0.0
+    puts "  current software latency: #{device.current_software_latency.round(8)} sec"
   end
 end
 
@@ -67,6 +69,10 @@ def list_devices(sio)
   sio.output_devices.each_with_index do |device, i|
     print_device(device, default_output_idx == i)
   end
+
+  device_count = sio.input_devices.length + sio.output_devices.length
+  puts "\n\n"
+  puts "#{device_count} devices found"
 end
 
 sio = SoundIO::Context.new

@@ -92,10 +92,7 @@ module SoundIO
 		end
 
 		def current_layout
-
-			#require 'pry'; binding.pry
-
-			self[:current_layout]
+			self[:current_layout] == :invalid ? nil : self[:current_layout]
     end
 
     def sample_rate_count
@@ -109,12 +106,11 @@ module SoundIO
 			(0..(self[:sample_rate_count] - 1)).collect do |i|
 				increment = i * rate_size
 				SoundIO::SampleRateRange.new(self[:sample_rates] + increment)
-      end
+			end
     end
 
     def sample_rate_current
-      return nil if self[:sample_rate_current] == 0
-      self[:sample_rate_current]
+      self[:sample_rate_current] == 0 ? nil : self[:sample_rate_current]
     end
     
     alias_method :current_sample_rate, :sample_rate_current
@@ -123,13 +119,20 @@ module SoundIO
       self[:format_count]
     end
 
-		def formats			
-			# TODO: this properly
-			[:invalid]
+		def formats
+			# TODO: DRY arrays
+			format_size = SoundIO::FORMAT.native_type.size
+
+			(0..(self[:format_count] - 1)).collect do |i|
+				num = (self[:formats] + i).read(FORMAT.native_type)
+				sym = SoundIO::FORMAT[num]
+				SoundIO::Format.new(sym)
+			end
     end
 
-    def current_format
-      self[:current_format]
+		def current_format
+			format = SoundIO::Format.new(self[:current_format])
+			format.invalid? ? nil : format
     end
 
     def software_latency_min

@@ -1,9 +1,9 @@
 RSpec.describe SoundIO::Error do
   let(:error) { SoundIO::Error.new('Message', :invalid) }
 
-  describe '#symbol' do
+  describe '#to_sym' do
     it 'returns the supplied symbol' do
-      expect(error.symbol).to eq :invalid
+      expect(error.to_sym).to eq :invalid
     end
   end
 
@@ -20,8 +20,6 @@ RSpec.describe SoundIO::Error do
   end
 
   describe '#none?'
-
-  describe '#to_sym'
 
   describe '#=='
 end

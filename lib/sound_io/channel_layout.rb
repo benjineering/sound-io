@@ -19,8 +19,7 @@ module SoundIO
     end
 
     def channels
-      # TODO: this properly - it's an array of enums
-      [:invalid]
+      self[:channels].take(self[:channel_count])
     end
   end
 end

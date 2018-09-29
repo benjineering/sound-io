@@ -8,6 +8,7 @@ require 'sound_io/out_stream'
 require 'sound_io/in_stream'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
+require 'sound_io/format'
 require 'sound_io/sound_io' # ext
 require 'ffi'
 
@@ -80,8 +81,8 @@ module SoundIO
 	attach_function :soundio_get_bytes_per_sample, [:format], :int
 	attach_function :soundio_format_string, [:format], :string
 
-	# TODO: implement own C functions to call these two
-	# FFI is not finding them because they're static	
+	# TODO: maybe implement C functions to call these two if possible.
+	#   FFI is not finding them because they're static.
 	# attach_function :soundio_get_bytes_per_frame, [:format, :int], :int
 	# attach_function :soundio_get_bytes_per_second, [:format, :int, :int], :int
 

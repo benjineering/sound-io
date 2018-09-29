@@ -3,7 +3,7 @@ require 'sound_io/enums'
 
 module SoundIO
   class Error < StandardError
-    attr_reader :symbol, :string
+    attr_reader :string
 
     def initialize(msg, sym)
       @symbol = sym
