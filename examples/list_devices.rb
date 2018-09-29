@@ -48,11 +48,11 @@ def print_device(device, is_default)
     puts "  current format: #{device.current_format}"
   end
 
-  puts "  min software latency: #{device.min_software_latency.round(8)} sec"
-  puts "  max software latency: #{device.max_software_latency.round(8)} sec"
+  printf "  min software latency: %0.8f sec\n", device.min_software_latency
+  printf "  max software latency: %0.8f sec\n", device.max_software_latency
 
   if device.current_software_latency > 0.0
-    puts "  current software latency: #{device.current_software_latency.round(8)} sec"
+    printf "  current software latency: %0.8f sec\n", device.current_software_latency
   end
 end
 
@@ -65,7 +65,7 @@ def list_devices(sio)
     print_device(device, default_input_idx == i)
   end
 
-  puts "\n--------Output Devices--------"
+  puts "\n\n--------Output Devices--------"
   sio.output_devices.each_with_index do |device, i|
     print_device(device, default_output_idx == i)
   end
