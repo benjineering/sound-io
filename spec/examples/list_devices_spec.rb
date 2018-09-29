@@ -17,10 +17,9 @@ RSpec.describe 'list_devices' do
   end
 
   describe 'the SoundIO Ruby example' do
-   # TODO: make this more robust - get current Ruby path from ENV?
-
     let(:ruby_example) do
-      stdout, stderr, status = Open3.capture3('ruby examples/list_devices.rb')
+      ruby = File.join(ENV['MY_RUBY_HOME'], 'bin', 'ruby')
+      stdout, stderr, status = Open3.capture3("#{ruby} examples/list_devices.rb")
       { out: stdout, err: stderr, status: status }
     end
 
