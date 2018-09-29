@@ -35,7 +35,7 @@ module SoundIO
 
 		def self.release(ptr)
 			# soundio_device_ref is called upon creation in SoundIO::Context
-      soundio_device_unref(ptr)
+      device_unref(ptr)
     end
 
 		def name=(str)
@@ -59,15 +59,15 @@ module SoundIO
 
 		def probe_error_str
 			return nil if self[:probe_error] == :none
-			SoundIO.soundio_strerror(self[:probe_error])
+			SoundIO.strerror(self[:probe_error])
 		end
 
 		def ==(other)
-			SoundIO.soundio_device_equal(self, other)
+			SoundIO.device_equal(self, other)
 		end
 
 		def create_stream(opts = {})
-			stm = SoundIO.soundio_outstream_create(self)
+			stm = SoundIO.outstream_create(self)
 			raise Error.no_memory if stm.nil?
 			opts.each { |k, v| stm[k.to_sym] = v }
 			stm

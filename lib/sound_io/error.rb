@@ -11,7 +11,7 @@ module SoundIO
       if sym.nil?
         super(msg)
       else
-        @string = SoundIO.soundio_strerror(sym)
+        @string = SoundIO.strerror(sym)
         super("#{msg} - #{@string}")
       end
     end

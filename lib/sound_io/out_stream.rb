@@ -25,11 +25,11 @@ module SoundIO
     )
 
     def self.release(ptr)
-      SoundIO.soundio_outstream_destroy(ptr)
+      SoundIO.outstream_destroy(ptr)
     end
 
     def open
-      error = SoundIO.soundio_outstream_open(self)
+      error = SoundIO.outstream_open(self)
       raise Error.new('Error opening out stream', error) unless error == :none
 
       unless self[:layout_error] == :none
@@ -38,7 +38,7 @@ module SoundIO
     end
 
     def start
-      error = SoundIO.soundio_outstream_start(self)
+      error = SoundIO.outstream_start(self)
       raise Error.new('Error starting out stream', error) unless error == :none
     end
 
@@ -55,7 +55,7 @@ module SoundIO
     def write(channelArea_array, frame_count_pointer)
       raise 'Block required' unless block_given?
 
-      error = SoundIO.soundio_outstream_begin_write(self, ChannelArea_array, frame_count_pointer)
+      error = SoundIO.outstream_begin_write(self, ChannelArea_array, frame_count_pointer)
       
       unless error == :none
         raise Error.new('Error calling soundio_outstream_begin_write', error)
@@ -63,7 +63,7 @@ module SoundIO
 
       yield
 
-      error = SoundIO.soundio_outstream_end_write(self)
+      error = SoundIO.outstream_end_write(self)
 
       unless error == :none
         raise Error.new('Error calling soundio_outstream_end_write', error)

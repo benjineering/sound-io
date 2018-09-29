@@ -7,11 +7,11 @@ module SoundIO
     end
 
     def bytes_per_sample
-      invalid? ? nil : SoundIO.soundio_get_bytes_per_sample(@sym)
+      invalid? ? nil : SoundIO.get_bytes_per_sample(@sym)
     end
 
     def to_s
-      SoundIO.soundio_format_string(@sym)
+      SoundIO.format_string(@sym)
     end
 
     def to_sym
