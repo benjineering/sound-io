@@ -87,7 +87,7 @@ module SoundIO
 	attach_function :soundio_outstream_destroy, [OutStream.ptr], :void
 	attach_function :soundio_outstream_open, [OutStream.ptr], :error
 	attach_function :soundio_outstream_start, [OutStream.ptr], :error
-	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :int
+	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :error
 	attach_function :soundio_outstream_end_write, [OutStream.ptr], :int
 	attach_function :soundio_outstream_clear_buffer, [OutStream.ptr], :int
 	attach_function :soundio_outstream_pause, [OutStream.ptr, :bool], :int

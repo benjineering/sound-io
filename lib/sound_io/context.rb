@@ -95,5 +95,9 @@ module SoundIO
     def wait_events
       SoundIO.wait_events(self)
     end
+
+    def wakeup
+      SoundIO.wakeup(self)
+    end
   end
 end

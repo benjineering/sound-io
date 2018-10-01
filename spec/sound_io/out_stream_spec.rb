@@ -12,4 +12,6 @@ RSpec.describe SoundIO::OutStream do
   skip '#begin_write'
 
   skip '#end_write'
+
+  skip '#channel_layout'
 end

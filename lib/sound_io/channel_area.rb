@@ -7,5 +7,13 @@ module SoundIO
       ptr: :pointer,
       step: :int
     )
+
+    def ptr
+      self[:ptr]
+    end
+
+    def step
+      self[:step]
+    end
   end
 end

@@ -1,3 +1,5 @@
 RSpec.describe SoundIO::ChannelArea do
-  skip 'ChannelArea'
+  skip '#ptr'
+
+  skip '#step'
 end

@@ -1,7 +1,6 @@
 require 'bundler/setup'
 require 'sound_io'
-
-RADS = 440.0 * 2.0 * Math::PI
+require 'synthesize'
 
 sio = SoundIO::Context.new
 sio.connect
@@ -11,30 +10,27 @@ out_dev = sio.output_device
 raise 'No output device' if out_dev.nil?
 out_stream = out_dev.create_out_stream
 
-offset_secs = 0.0
+sine = Synthesize.sine(440, 1).wave_table
 
 out_stream.write_callback = lambda do |stream, frame_min, frame_max|
-  layout = stream.layout
-  secs_per_frame = 1.0 / stream.sample_rate
+  layout = stream.channel_layout
   frames_left = frame_max
 
-  while frames_left > 0
-    frame_count = frames_left
-    result = stream.begin_write(frame_count)
-    frame_count = result.frames
+  while frames_left > 0 do
+    result = stream.begin_write(frames_left)
+    frame_count = result.frame_count
     break if frame_count < 0
 
     (0...frame_count).each do |frame|
-      sample = Math.sin((offset_secs + frame * secs_per_frame) * RADS)
+      sample = sine.next(1)
 
       (0...layout.channel_count).each do |channel|
-        result.write(channel, frame, sample)
+        result.areas.write(sample, channel, frame)
       end
     end
 
-    offset_secs = (offset_secs + secs_per_frame * frame_count) % 1.0
-    stream.end_write
     frames_left -= frame_count;
+    stream.end_write
   end
 end
 
