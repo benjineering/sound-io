@@ -91,7 +91,7 @@ module SoundIO
       # TODO: DRY arrays
 			layout_size = ChannelLayout.size
 
-			(0..(self[:layout_count] - 1)).collect do |i|
+			(0...self[:layout_count]).collect do |i|
 				increment = i * layout_size
 				ChannelLayout.new(self[:layouts] + increment)
       end
@@ -109,7 +109,7 @@ module SoundIO
 			# TODO: DRY arrays
 			rate_size = SampleRateRange.size
 
-			(0..(self[:sample_rate_count] - 1)).collect do |i|
+			(0...self[:sample_rate_count]).collect do |i|
 				increment = i * rate_size
 				SampleRateRange.new(self[:sample_rates] + increment)
 			end
@@ -127,7 +127,7 @@ module SoundIO
 			# TODO: DRY arrays
 			format_size = FORMAT.native_type.size
 
-			(0..(self[:format_count] - 1)).collect do |i|
+			(0...self[:format_count]).collect do |i|
 				num = (self[:formats] + i).read(FORMAT.native_type)
 				sym = FORMAT[num]
 				Format.new(sym)

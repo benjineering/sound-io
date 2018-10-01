@@ -3,6 +3,7 @@ PATH
   specs:
     sound_io (0.1.0)
       ffi (~> 1.9)
+      synthesize (= 2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -31,6 +32,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    synthesize (2.0.0)
 
 PLATFORMS
   ruby

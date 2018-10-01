@@ -24,10 +24,10 @@ out_stream.write_callback = lambda do |stream, frame_min, frame_max|
     frame_count = result.frames
     break if frame_count < 0
 
-    (0..(frame_count - 1)).each do |frame|
+    (0...frame_count).each do |frame|
       sample = Math.sin((offset_secs + frame * secs_per_frame) * RADS)
 
-      (0..(layout.channel_count - 1)).each do |channel|
+      (0...layout.channel_count).each do |channel|
         result.write(channel, frame, sample)
       end
     end
