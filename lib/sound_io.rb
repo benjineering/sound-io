@@ -12,9 +12,11 @@ require 'ffi'
 
 module SoundIO
 	extend FFI::Library
-	ffi_lib 'soundio'
+	
+	# TODO: reference lib better
+	ffi_lib Gem.win_platform? ? File.expand_path('C:\\Users\\8enwi\\Documents\\libsoundio-1.1.0\\x86_64\\libsoundio.dll') : 'soundio'
 
-	# kneel before the FFI monolith
+	# kneel before the mighty FFI monolith
 	
 	# module
 	attach_function :soundio_version_string, [], :string
