@@ -3,17 +3,29 @@ require 'sound_io/enums'
 
 module SoundIO
   class Error < StandardError
-    attr_reader :symbol, :string
+    attr_reader :string
 
-    def initialize(msg, sym = nil)
+    def initialize(msg, sym)
       @symbol = sym
 
       if sym.nil?
         super(msg)
       else
-        @string = SoundIO.soundio_strerror(sym) unless sym.nil?
+        @string = SoundIO.strerror(sym)
         super("#{msg} - #{@string}")
       end
+    end
+
+    def none?
+      @symbol == :none
+    end
+
+    def to_sym
+      @symbol
+    end
+
+    def ==(sym)
+      to_sym == sym.to_sym
     end
 
     def self.no_memory

@@ -1,9 +1,14 @@
-require 'ffi'
 require 'sound_io'
 require 'sound_io/error'
 require 'sound_io/device'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
+
+require 'sound_io/response/int_pointer'
+require 'sound_io/response/channel_areas'
+require 'sound_io/response/begin_write_response'
+
+require 'ffi'
 
 module SoundIO
   class OutStream < FFI::ManagedStruct
@@ -11,12 +16,12 @@ module SoundIO
       device: Device.ptr,
       format: :format,
       sample_rate: :int,
-      layout: ChannelLayout.ptr,
+      layout: ChannelLayout,
       software_latency: :double,
       userdata: :pointer,
       write_callback: callback([OutStream.ptr, :int, :int], :void),
       underflow_callback: callback([OutStream.ptr], :void),
-      error_callback: callback([OutStream.ptr, :int], :void),
+      error_callback: callback([OutStream.ptr, :error], :void),
       name: :string,
       non_terminal_hint: :bool,
       bytes_per_frame: :int,
@@ -25,12 +30,20 @@ module SoundIO
     )
 
     def self.release(ptr)
-      SoundIO.soundio_outstream_destroy(ptr)
+      SoundIO.outstream_destroy(ptr)
+    end
+
+    def format=(fmt)
+      self[:format] = fmt.to_sym
+    end
+
+    def write_callback=(proc)
+      self[:write_callback] = proc
     end
 
     def open
-      error = SoundIO.soundio_outstream_open(self)
-      raise Error.new('Error opening out stream', error) unless error == :none
+      error = SoundIO.outstream_open(self)
+      raise Error.new('Error opening stream', error) unless error == :none
 
       unless self[:layout_error] == :none
         raise Error.new('Unable to set channel layout', self[:layout_error])
@@ -38,36 +51,25 @@ module SoundIO
     end
 
     def start
-      error = SoundIO.soundio_outstream_start(self)
-      raise Error.new('Error starting out stream', error) unless error == :none
+      error = SoundIO.outstream_start(self)
+      raise Error.new('Error starting stream', error) unless error == :none
     end
 
-    # TODO: this is probably not very efficient...
-    def callback
-      raise 'Block required' unless block_given?
-
-      self[:write_callback] = lambda do |stream, frame_min, frame_max|
-        yield(frame_min, frame_max, stream) # param order changed so we can ignore the stream
-      end
+    def begin_write(requested_frame_count)
+      frame_count_ptr = Response::IntPointer.new(requested_frame_count)
+      areas = Response::ChannelAreas.new
+      error = SoundIO.outstream_begin_write(self, areas, frame_count_ptr)
+      raise Error.new('Error beginning write', error) unless error == :none
+      Response::BeginWriteResponse.new(areas, frame_count_ptr.value)
     end
 
-    # this probably isn't correct
-    def write(channelArea_array, frame_count_pointer)
-      raise 'Block required' unless block_given?
+    def end_write
+      error = SoundIO.outstream_end_write(self)
+      raise Error.new('Error ending write', error) unless error ==:none
+    end
 
-      error = SoundIO.soundio_outstream_begin_write(self, ChannelArea_array, frame_count_pointer)
-      
-      unless error == :none
-        raise Error.new('Error calling soundio_outstream_begin_write', error)
-      end
-
-      yield
-
-      error = SoundIO.soundio_outstream_end_write(self)
-
-      unless error == :none
-        raise Error.new('Error calling soundio_outstream_end_write', error)
-      end
+    def channel_layout
+      return self[:layout]
     end
   end
 end

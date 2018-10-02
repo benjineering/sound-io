@@ -8,6 +8,9 @@ require 'sound_io/out_stream'
 require 'sound_io/in_stream'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
+require 'sound_io/format'
+require 'sound_io/sound_io' # ext
+
 require 'ffi'
 
 module SoundIO
@@ -26,10 +29,6 @@ module SoundIO
 	attach_function :soundio_have_backend, [:backend], :bool
 	attach_function :soundio_backend_name, [:backend], :string
 
-	def self.have_backend?(backend)
-		soundio_have_backend(backend)
-	end
-
 	# error
 	attach_function :soundio_strerror, [:error], :string
 
@@ -42,7 +41,7 @@ module SoundIO
 	attach_function :soundio_backend_count, [Context.ptr], :int
 	attach_function :soundio_get_backend, [Context.ptr, :int], :backend
 	attach_function :soundio_flush_events, [Context.ptr], :void
-	attach_function :soundio_wait_events, [Context.ptr], :void
+	attach_function :soundio_wait_events, [Context.ptr], :void, blocking: true
 	attach_function :soundio_wakeup, [Context.ptr], :void
 	attach_function :soundio_force_device_scan, [Context.ptr], :void	
 	attach_function :soundio_input_device_count, [Context.ptr], :int
@@ -81,8 +80,8 @@ module SoundIO
 	attach_function :soundio_get_bytes_per_sample, [:format], :int
 	attach_function :soundio_format_string, [:format], :string
 
-	# TODO: implement own C functions to call these two
-	# FFI is not finding them because they're static	
+	# TODO: maybe implement C functions to call these two if possible.
+	#   FFI is not finding them because they're static.
 	# attach_function :soundio_get_bytes_per_frame, [:format, :int], :int
 	# attach_function :soundio_get_bytes_per_second, [:format, :int, :int], :int
 
@@ -90,7 +89,7 @@ module SoundIO
 	attach_function :soundio_outstream_destroy, [OutStream.ptr], :void
 	attach_function :soundio_outstream_open, [OutStream.ptr], :error
 	attach_function :soundio_outstream_start, [OutStream.ptr], :error
-	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :int
+	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :error
 	attach_function :soundio_outstream_end_write, [OutStream.ptr], :int
 	attach_function :soundio_outstream_clear_buffer, [OutStream.ptr], :int
 	attach_function :soundio_outstream_pause, [OutStream.ptr, :bool], :int
@@ -115,4 +114,18 @@ module SoundIO
 	attach_function :soundio_ring_buffer_fill_count, [RingBuffer.ptr], :int
 	attach_function :soundio_ring_buffer_free_count, [RingBuffer.ptr], :int
 	attach_function :soundio_ring_buffer_clear, [RingBuffer.ptr], :void
+
+	# alias soundio_ methods
+	class << self
+		prefix_rex = /^soundio_/
+
+		self.instance_methods.each do |sym|
+			str = sym.to_s
+
+			unless str.match(prefix_rex).nil?
+				short_sym = str.gsub(prefix_rex, '').to_sym
+				alias_method short_sym, sym
+			end
+		end
+	end
 end

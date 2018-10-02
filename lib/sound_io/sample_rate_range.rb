@@ -6,5 +6,13 @@ module SoundIO
       min: :int,
       max: :int
     )
+
+    def min
+      self[:min]
+    end
+
+    def max
+      self[:max]
+    end
   end
 end

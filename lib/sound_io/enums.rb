@@ -5,7 +5,7 @@ module SoundIO
   
   # TODO: make sure all enum int values are correct
   
-  enum(:backend, [
+  BACKEND = enum(:backend, [
     :none,
     :jack,
     :pulse_audio,
@@ -15,12 +15,12 @@ module SoundIO
     :dummy
   ])
 
-  enum(:aim, [
+  AIM = enum(:aim, [
     :input,
     :output
   ])
 
-  enum(:format, [
+  FORMAT = enum(:format, [
     :invalid,
     :s8, :u8,
     :s16le, :s16be,
@@ -34,8 +34,8 @@ module SoundIO
   ])
 
   # TODO: snake case
-  enum(:channel_id, [
-    :Invalid,
+  CHANNEL_ID = enum(:channel_id, [
+    :invalid,
     :FrontLeft,
     :FrontRight,
     :FrontCenter,
@@ -106,7 +106,7 @@ module SoundIO
     :Aux15   
   ])
 
-  enum(:error, [
+  ERROR = enum(:error, [
     :none,
     :NoMem,
     :InitAudioBackend,

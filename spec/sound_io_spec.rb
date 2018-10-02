@@ -1,5 +1,5 @@
 RSpec.describe SoundIO do
-  let(:context) { SoundIO.soundio_create }
+  let(:context) { SoundIO.create }
 
   # static
 
@@ -8,28 +8,34 @@ RSpec.describe SoundIO do
       expect(SoundIO::VERSION).to be_instance_of String
     end
   end
+
+  describe '.MAX_CHANNELS' do
+    it 'returns a number' do
+      expect(SoundIO.MAX_CHANNELS).to be_instance_of Fixnum
+    end
+  end
   
-  describe '.soundio_version_string' do
+  describe '.version_string' do
     it 'returns a string' do
-      expect(SoundIO.soundio_version_string).to be_instance_of String
+      expect(SoundIO.version_string).to be_instance_of String
     end
   end
   
   describe '.soundio_version_major' do
     it 'returns a fixnum' do
-      expect(SoundIO.soundio_version_major).to be_instance_of Fixnum
+      expect(SoundIO.version_major).to be_instance_of Fixnum
     end
   end
   
   describe '.soundio_version_minor' do
     it 'returns a fixnum' do
-      expect(SoundIO.soundio_version_minor).to be_instance_of Fixnum
+      expect(SoundIO.version_minor).to be_instance_of Fixnum
     end
   end
   
   describe '.soundio_version_patch' do
     it 'returns a fixnum' do
-      expect(SoundIO.soundio_version_patch).to be_instance_of Fixnum
+      expect(SoundIO.version_patch).to be_instance_of Fixnum
     end
   end
 
@@ -49,12 +55,12 @@ RSpec.describe SoundIO do
 
   describe '.soundio_destroy' do
     it 'destroys the passed context' do
-      expect { SoundIO.soundio_destroy(context) }.not_to raise_error
+      expect { SoundIO.destroy(context) }.not_to raise_error
     end
   end
 
   describe '.soundio_connect' do
-    let (:connect) { SoundIO.soundio_connect(context) }
+    let (:connect) { SoundIO.connect(context) }
 
     it 'returns :none' do
       expect(connect).to eq :none
@@ -67,7 +73,7 @@ RSpec.describe SoundIO do
   end
 
   describe '.soundio_connect_backend' do
-    let (:connect) { SoundIO.soundio_connect_backend(context, :dummy) }
+    let (:connect) { SoundIO.connect_backend(context, :dummy) }
 
     it 'returns :none' do
       expect(connect).to eq :none
