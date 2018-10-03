@@ -6,7 +6,12 @@
 
 ### TODO
 
-- get basic_usage working
+- rename `ChannelAreas` to `OutputBuffer`
+- add more outstream methods:
+  - implement other callbacks
+  - simplify begin and end with block
+  - simplify write
+  - add mono write 
 - move module methods to applicable files and remove module requires
 - add examples to Rakefile
 - check libsoundio version on install and in specs
