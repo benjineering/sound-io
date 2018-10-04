@@ -17,15 +17,15 @@ out_stream.write_callback = lambda do |stream, frame_min, frame_max|
   frames_left = frame_max
 
   while frames_left > 0 do
-    result = stream.begin_write(frames_left)
-    frame_count = result.frame_count
+    buffer = stream.begin_write(frames_left)
+    frame_count = buffer.frame_count
     break if frame_count < 0
 
     (0...frame_count).each do |frame|
       sample = sine.next(1)
 
       (0...layout.channel_count).each do |channel|
-        result.areas.write(sample, channel, frame)
+        buffer.areas.write(sample, channel, frame)
       end
     end
 
