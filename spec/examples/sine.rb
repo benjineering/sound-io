@@ -1,8 +1,8 @@
 require 'open3'
 
-RSpec.describe 'list_devices' do
+RSpec.describe 'sine' do
   let(:c_example) do 
-    stdout, stderr, status = Open3.capture3('examples/c/bin/list_devices')
+    stdout, stderr, status = Open3.capture3('examples/c/bin/sine')
     { out: stdout, err: stderr, status: status }
   end
 
@@ -19,7 +19,7 @@ RSpec.describe 'list_devices' do
   describe 'the SoundIO Ruby example' do
     let(:ruby_example) do
       ruby = File.join(ENV['MY_RUBY_HOME'], 'bin', 'ruby')
-      stdout, stderr, status = Open3.capture3("#{ruby} examples/list_devices.rb")
+      stdout, stderr, status = Open3.capture3("#{ruby} examples/sine.rb")
       { out: stdout, err: stderr, status: status }
     end
 
