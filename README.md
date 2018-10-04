@@ -6,14 +6,15 @@
 
 ### TODO
 
-- rename `ChannelAreas` to `OutputBuffer`
-  - move `frame_count` to `OutputBuffer` and remove `BeginWriteRespones`
-  - rename `Respone` module to `Buffer`
 - add more outstream methods:
   - implement other callbacks
   - simplify begin and end with block
   - simplify write
-  - add mono write 
+  - add mono write
+- make buffer smarter
+  - keep current write pos so you can just `<<`
+  - maybe move to `SoundIO::Output::Buffer`
+  - maybe superclass to implement `InputBuffer`
 - move module methods to applicable files and remove module requires
 - add examples to Rakefile
 - check libsoundio version on install and in specs
