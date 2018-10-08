@@ -30,10 +30,8 @@ VALUE get_frames_given(VALUE self) {
 }
 
 void Init_output_buffer() {
-  mOutput = rb_define_module_under(mSoundIO, "Output");
   cBuffer = rb_define_class_under(mOutput, "Buffer", rb_cObject);
 	rb_define_alloc_func(cBuffer, allocate_output_buffer);
-
 	rb_define_method(cBuffer, "initialize", initialize_output_buffer, 1);
 	rb_define_method(cBuffer, "frames_requested", get_frames_requested, 0);
 	rb_define_method(cBuffer, "frames_given", get_frames_given, 0);
