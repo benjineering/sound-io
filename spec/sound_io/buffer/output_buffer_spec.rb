@@ -1,4 +1,4 @@
-RSpec.describe SoundIO::Buffer::OutputBuffer do
+RSpec.describe SoundIO::Buffer::OutputBuffer, c_api: true do
   skip '.new'
 
   skip '#frame_count'

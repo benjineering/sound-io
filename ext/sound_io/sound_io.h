@@ -1,8 +1,15 @@
+#ifndef SOUNDIO_RB_H
+#define SOUNDIO_RB_H
+
 #include <ruby.h>
 #include <soundio/soundio.h>
 
-const char *rootName = "SoundIO";
+extern const char *rootName;
 
-VALUE mSoundIO = Qnil;
+extern VALUE mSoundIO;
+extern VALUE mBuffer;
+extern VALUE cOutputBuffer;
 
 void Init_sound_io();
+
+#endif

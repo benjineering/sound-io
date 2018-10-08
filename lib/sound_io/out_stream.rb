@@ -3,7 +3,6 @@ require 'sound_io/error'
 require 'sound_io/device'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
-require 'sound_io/buffer/output_buffer'
 
 require 'ffi'
 

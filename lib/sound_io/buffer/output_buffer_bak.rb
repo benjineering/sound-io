@@ -3,7 +3,7 @@ require 'ffi'
 
 module SoundIO
   module Buffer
-    class OutputBuffer < FFI::Struct
+    class OutputBufferBak < FFI::Struct
       attr_reader :areas, :frame_count_ptr, :channel_count
 
       def initialize(channel_count, frame_count = 0)
