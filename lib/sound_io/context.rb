@@ -88,7 +88,7 @@ module SoundIO
       dev = SoundIO.get_output_device(self, idx)
       return nil if dev.nil?
 
-      SoundIO.device_ref(dev) # unref called in Device.release
+      SoundIO.device_ref(dev) # device_unref is called in Device.release
       dev
     end
 

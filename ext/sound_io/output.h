@@ -4,6 +4,8 @@
 #include <ruby.h>
 #include <soundio/soundio.h>
 
+VALUE begin_write(VALUE stream, VALUE buffer);
+
 void Init_output();
 
 #endif

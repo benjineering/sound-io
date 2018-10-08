@@ -6,9 +6,7 @@ sio = SoundIO::Context.new
 sio.connect
 sio.flush_events
 
-device = sio.output_device
-raise 'No output device' if device.nil?
-out_stream = device.create_out_stream
+out_stream = sio.output_device.create_out_stream
 sine = Synthesize.sine(440, 1).wave_table
 
 out_stream.write_callback = lambda do |stream, frame_min, frame_max|

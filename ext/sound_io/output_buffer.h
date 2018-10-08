@@ -7,7 +7,7 @@
 struct OutputBuffer {
   int frames_requested;
   int frames_given;
-  struct SoundIoChannelArea **areas;
+  struct SoundIoChannelArea *areas;
 };
 
 VALUE allocate_output_buffer(VALUE self);
