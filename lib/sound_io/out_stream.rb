@@ -62,15 +62,15 @@ module SoundIO
 
     def begin_write(requested_frame_count)
       if @buffer.nil?
-        channel_count = self[:channel_layout][:channel_count]
-        @buffer = Response::OutputBuffer.new(channel_count)
+        channel_count = self[:layout][:channel_count]
+        @buffer = SoundIO::Buffer::OutputBuffer.new(channel_count)
       end
 
       @buffer.frame_count = requested_frame_count
 
       error = SoundIO.outstream_begin_write(
         self, 
-        @buffer.areas, 
+        @buffer.areas_ptr, 
         @buffer.frame_count_ptr
       )
 

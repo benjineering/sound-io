@@ -7,9 +7,9 @@ module SoundIO
       attr_reader :areas, :frame_count_ptr, :channel_count
 
       def initialize(channel_count, frame_count = 0)
-        @areas = ChannelArea.new.to_ptr.to_ptr
+        @areas = FFI::MemoryPointer.new(:pointer, 0)
         @channel_count = channel_count
-        @frame_count_ptr = FFI::Pointer.new # TODO: should be memory pointer?
+        @frame_count_ptr = FFI::MemoryPointer.new(:int)
         frame_count = frame_count
       end
 
@@ -18,13 +18,17 @@ module SoundIO
       end
 
       def frame_count=(num)
-        @frame_count_ptr.write(num)
+        @frame_count_ptr.write_int(num)
+      end
+
+      def areas_ptr
+        FFI::Pointer.new(@areas)
       end
 
       def write(samples, channel_idx, offset = 0)
         # TODO: DRY arrays
         increment = channel_idx * ChannelArea.size
-        area = ChannelArea.new(self[:areas] + increment)
+        area = ChannelArea.new(@areas + increment)
         pointer = FFI::Pointer.new(area.ptr + area.step * offset)
 
         if samples.is_a?(Array)
@@ -32,18 +36,20 @@ module SoundIO
             raise new Error('samples length exceeds frame_count')
           end
 
-          samples.each { |s| pointer.write_array(:float, s) }
+          (0...samples.length).each { |s| pointer.write_float(s) }
+
+          #pointer.write_array_of_float(samples)
         else
-          pointer.write(:float, samples)
+          pointer.write_float(samples)
         end
       end
 
-      def write_mono(samples, offset = 0)        
+      def write_mono(samples, offset = 0)
         if samples.is_a?(Array) && samples.length > frame_count
           raise new Error('samples length exceeds frame_count')
         end
 
-        (0...@channel_count)
+        (0...@channel_count).each { |c| write(samples, c, offset) }
       end
 
       alias_method :<<, :write_mono
