@@ -4,8 +4,8 @@
 const char *rootName = "SoundIO";
 
 VALUE mSoundIO = Qnil;
-VALUE mBuffer = Qnil;
-VALUE cOutputBuffer = Qnil;
+VALUE mOutput = Qnil;
+VALUE cBuffer = Qnil;
 
 void Init_sound_io() {
   mSoundIO = rb_define_module(rootName);

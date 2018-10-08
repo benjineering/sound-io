@@ -3,12 +3,14 @@ require 'sound_io/device'
 require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/error'
-require 'sound_io/ring_buffer'
-require 'sound_io/out_stream'
-require 'sound_io/in_stream'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
+
+require 'sound_io/output/stream'
+require 'sound_io/in_stream'
+require 'sound_io/ring_buffer'
+
 require 'sound_io/sound_io' # ext
 
 require 'ffi'
@@ -61,7 +63,7 @@ module SoundIO
 	attach_function :soundio_device_supports_format, [Device.ptr, :format], :bool
 	attach_function :soundio_device_supports_layout, [Device.ptr, ChannelLayout.ptr], :bool
 	attach_function :soundio_device_supports_sample_rate, [Device.ptr, :int], :bool	
-	attach_function :soundio_outstream_create, [Device.ptr], OutStream.ptr
+	attach_function :soundio_outstream_create, [Device.ptr], Output::Stream.ptr
 	attach_function :soundio_instream_create, [Device.ptr], InStream.ptr
 
 	# channel layout
@@ -86,14 +88,14 @@ module SoundIO
 	# attach_function :soundio_get_bytes_per_second, [:format, :int, :int], :int
 
   # outstream
-	attach_function :soundio_outstream_destroy, [OutStream.ptr], :void
-	attach_function :soundio_outstream_open, [OutStream.ptr], :error
-	attach_function :soundio_outstream_start, [OutStream.ptr], :error
-	attach_function :soundio_outstream_begin_write, [OutStream.ptr, :pointer, :pointer], :error
-	attach_function :soundio_outstream_end_write, [OutStream.ptr], :int
-	attach_function :soundio_outstream_clear_buffer, [OutStream.ptr], :int
-	attach_function :soundio_outstream_pause, [OutStream.ptr, :bool], :int
-	attach_function :soundio_outstream_get_latency, [OutStream.ptr, :pointer], :int
+	attach_function :soundio_outstream_destroy, [Output::Stream.ptr], :void
+	attach_function :soundio_outstream_open, [Output::Stream.ptr], :error
+	attach_function :soundio_outstream_start, [Output::Stream.ptr], :error
+	attach_function :soundio_outstream_begin_write, [Output::Stream.ptr, :pointer, :pointer], :error
+	attach_function :soundio_outstream_end_write, [Output::Stream.ptr], :int
+	attach_function :soundio_outstream_clear_buffer, [Output::Stream.ptr], :int
+	attach_function :soundio_outstream_pause, [Output::Stream.ptr, :bool], :int
+	attach_function :soundio_outstream_get_latency, [Output::Stream.ptr, :pointer], :int
 
   # instream
 	attach_function :soundio_instream_destroy, [InStream.ptr], :void

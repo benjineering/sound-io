@@ -7,8 +7,8 @@
 extern const char *rootName;
 
 extern VALUE mSoundIO;
-extern VALUE mBuffer;
-extern VALUE cOutputBuffer;
+extern VALUE mOutput;
+extern VALUE cBuffer;
 
 void Init_sound_io();
 

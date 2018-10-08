@@ -5,7 +5,8 @@
 #include <soundio/soundio.h>
 
 struct OutputBuffer {
-  int frame_count;
+  int frames_requested;
+  int frames_given;
   struct SoundIoChannelArea **areas;
 };
 

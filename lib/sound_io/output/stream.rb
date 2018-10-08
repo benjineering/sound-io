@@ -6,23 +6,23 @@ require 'sound_io/channel_layout'
 
 require 'ffi'
 
-module SoundIO
-  class OutStream < FFI::ManagedStruct
+module SoundIO::Output
+  class Stream < FFI::ManagedStruct
     layout(
-      device: Device.ptr,
-      format: :format,
+      device: SoundIO::Device.ptr,
+      format: SoundIO::FORMAT,
       sample_rate: :int,
-      layout: ChannelLayout,
+      layout: SoundIO::ChannelLayout,
       software_latency: :double,
       userdata: :pointer,
-      write_callback: callback([OutStream.ptr, :int, :int], :void),
-      underflow_callback: callback([OutStream.ptr], :void),
-      error_callback: callback([OutStream.ptr, :error], :void),
+      write_callback: callback([Stream.ptr, :int, :int], :void),
+      underflow_callback: callback([Stream.ptr], :void),
+      error_callback: callback([Stream.ptr, SoundIO::ERROR], :void),
       name: :string,
       non_terminal_hint: :bool,
       bytes_per_frame: :int,
       bytes_per_sample: :int,
-      layout_error: :error
+      layout_error: SoundIO::ERROR
     )
 
     def self.release(ptr)
@@ -47,22 +47,29 @@ module SoundIO
 
     def open
       error = SoundIO.outstream_open(self)
-      raise Error.new('Error opening stream', error) unless error == :none
+      unless error == :none
+        raise SoundIO::Error.new('Error opening stream', error)
+      end
 
       unless self[:layout_error] == :none
-        raise Error.new('Unable to set channel layout', self[:layout_error])
+        raise SoundIO::Error.new(
+          'Unable to set channel layout', 
+          self[:layout_error]
+        )
       end
     end
 
     def start
       error = SoundIO.outstream_start(self)
-      raise Error.new('Error starting stream', error) unless error == :none
+      unless error == :none
+        raise SoundIO::Error.new('Error starting stream', error)
+      end
     end
 
     def begin_write(requested_frame_count)
       if @buffer.nil?
         channel_count = self[:layout][:channel_count]
-        @buffer = SoundIO::Buffer::OutputBuffer.new(channel_count)
+        @buffer = Buffer.new(channel_count)
       end
 
       @buffer.frame_count = requested_frame_count
@@ -73,7 +80,9 @@ module SoundIO
         @buffer.frame_count_ptr
       )
 
-      raise Error.new('Error beginning write', error) unless error == :none
+      unless error == :none
+        raise SoundIO::Error.new('Error beginning write', error)
+      end
 
       if block_given?
         begin
@@ -92,7 +101,10 @@ module SoundIO
 
     def end_write
       error = SoundIO.outstream_end_write(self)
-      raise Error.new('Error ending write', error) unless error ==:none
+
+      unless error == :none
+        raise SoundIO::Error.new('Error ending write', error)
+      end
     end
 
     def channel_layout
