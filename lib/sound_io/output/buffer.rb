@@ -3,12 +3,13 @@ module SoundIO
     class Buffer
       attr_reader :areas
 
-      def initialize(areas, frame_count)
-        @areas = areas
+      def initialize(frame_cnt)
+        @areas = ChannelAreas.new
         @frame_count = FFI::MemoryPointer.new(:int)
+        set_frame_count = frame_cnt
       end
 
-      def frame_count=(num)
+      def set_frame_count=(num)
         @frame_count.write_int(num)
       end
 

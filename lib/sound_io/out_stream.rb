@@ -53,10 +53,10 @@ module SoundIO
     end
 
     def begin_write(requested_frames)
-      buffer = SoundIO.Output::Buffer.new(requested_frames)
+      buffer = SoundIO::Output::Buffer.new(requested_frames)
 
       error = SoundIO.outstream_begin_write(
-        self, 
+        self,
         buffer.areas, 
         buffer.frame_count_ptr
       )

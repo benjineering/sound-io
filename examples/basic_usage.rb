@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'sound_io'
 require 'synthesize'
+require 'date'
 
 sio = SoundIO::Context.new
 sio.connect
@@ -37,6 +38,10 @@ end
 out_stream.open
 out_stream.start
 
+start = DateTime.now
+
 loop do
+  puts DateTime.now - start
+  break if DateTime.now - start > 1
   sio.wait_events;
 end
