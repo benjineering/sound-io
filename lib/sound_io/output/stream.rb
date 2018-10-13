@@ -38,6 +38,12 @@ module SoundIO
         self[:write_callback] = proc
       end
 
+      def error_callback=(proc)
+        self[:error_callback] = lambda do |stream, error| 
+          proc.call(SoundIO::Error.new('Output stream error callback', error))
+        end
+      end
+
       def open
         error = SoundIO.outstream_open(self)
 
@@ -61,19 +67,34 @@ module SoundIO
       end
 
       def begin_write(requested_frame_count)
-        buffer = Buffer.new(requested_frame_count)
+        if @buffer.nil?
+          channel_count = self[:layout].channel_count
+          @buffer = Buffer.new(requested_frame_count, channel_count)
+        end
 
         error = SoundIO.outstream_begin_write(
           self, 
-          buffer.areas, 
-          buffer.frame_count_ptr
+          @buffer.areas, 
+          @buffer.frame_count_ptr
         )
 
         unless error == :none
           raise SoundIO::Error.new('Error beginning write', error)
         end
 
-        buffer
+        if block_given?
+          begin
+            yield @buffer
+          rescue => ex
+            unless self[:error_callback].nil?
+              self[:error_callback].call(self, ex)
+            end
+          end
+  
+          end_write
+        else
+          return @buffer
+        end
       end
 
       def end_write
@@ -87,6 +108,8 @@ module SoundIO
       def channel_layout
         return self[:layout]
       end
+
+      alias_method :write, :begin_write
     end
   end
 end
