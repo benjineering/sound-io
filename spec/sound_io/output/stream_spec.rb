@@ -1,4 +1,4 @@
-RSpec.describe SoundIO::OutStream do
+RSpec.describe SoundIO::Output::Stream do
   skip '.release'
 
   skip '#format='
