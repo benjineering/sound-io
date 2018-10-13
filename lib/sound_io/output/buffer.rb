@@ -1,8 +1,8 @@
-require 'sound_io/response/channel_areas'
+require 'sound_io/output/channel_areas'
 
 module SoundIO
-  module Response
-    class BeginWriteResponse
+  module Output
+    class Buffer
       attr_reader :areas, :frame_count
 
       def initialize(areas, frame_count)

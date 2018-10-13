@@ -4,9 +4,9 @@ require 'sound_io/device'
 require 'sound_io/enums'
 require 'sound_io/channel_layout'
 
-require 'sound_io/response/int_pointer'
-require 'sound_io/response/channel_areas'
-require 'sound_io/response/begin_write_response'
+require 'sound_io/output/int_pointer'
+require 'sound_io/output/channel_areas'
+require 'sound_io/output/buffer'
 
 require 'ffi'
 
@@ -56,11 +56,11 @@ module SoundIO
     end
 
     def begin_write(requested_frame_count)
-      frame_count_ptr = Response::IntPointer.new(requested_frame_count)
-      areas = Response::ChannelAreas.new
+      frame_count_ptr = Output::IntPointer.new(requested_frame_count)
+      areas = Output::ChannelAreas.new
       error = SoundIO.outstream_begin_write(self, areas, frame_count_ptr)
       raise Error.new('Error beginning write', error) unless error == :none
-      Response::BeginWriteResponse.new(areas, frame_count_ptr.value)
+      Output::Buffer.new(areas, frame_count_ptr.value)
     end
 
     def end_write
