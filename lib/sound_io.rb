@@ -5,7 +5,7 @@ require 'sound_io/enums'
 require 'sound_io/error'
 require 'sound_io/ring_buffer'
 require 'sound_io/output/stream'
-require 'sound_io/in_stream'
+require 'sound_io/input/stream'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
@@ -60,7 +60,7 @@ module SoundIO
 	attach_function :soundio_device_supports_layout, [Device.ptr, ChannelLayout.ptr], :bool
 	attach_function :soundio_device_supports_sample_rate, [Device.ptr, :int], :bool	
 	attach_function :soundio_outstream_create, [Device.ptr], Output::Stream.ptr
-	attach_function :soundio_instream_create, [Device.ptr], InStream.ptr
+	attach_function :soundio_instream_create, [Device.ptr], Input::Stream.ptr
 
 	# channel layout
 	attach_function :soundio_channel_layout_equal, [ChannelLayout.ptr, ChannelLayout.ptr], :bool
@@ -94,13 +94,13 @@ module SoundIO
 	attach_function :soundio_outstream_get_latency, [Output::Stream.ptr, :pointer], :int
 
   # instream
-	attach_function :soundio_instream_destroy, [InStream.ptr], :void
-	attach_function :soundio_instream_open, [InStream.ptr], :error
-	attach_function :soundio_instream_start, [InStream.ptr], :error
-	attach_function :soundio_instream_begin_read, [InStream.ptr, :pointer, :pointer], :int
-	attach_function :soundio_instream_end_read, [InStream.ptr], :int
-	attach_function :soundio_instream_pause, [InStream.ptr, :bool], :int
-	attach_function :soundio_instream_get_latency, [InStream.ptr, :pointer], :int
+	attach_function :soundio_instream_destroy, [Input::Stream.ptr], :void
+	attach_function :soundio_instream_open, [Input::Stream.ptr], :error
+	attach_function :soundio_instream_start, [Input::Stream.ptr], :error
+	attach_function :soundio_instream_begin_read, [Input::Stream.ptr, :pointer, :pointer], :int
+	attach_function :soundio_instream_end_read, [Input::Stream.ptr], :int
+	attach_function :soundio_instream_pause, [Input::Stream.ptr, :bool], :int
+	attach_function :soundio_instream_get_latency, [Input::Stream.ptr, :pointer], :int
 
   # ringbuffer
 	attach_function :soundio_ring_buffer_destroy, [RingBuffer.ptr], :void
