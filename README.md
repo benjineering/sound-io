@@ -7,6 +7,7 @@
 ### TODO
 
 - implement record example
+- snake case remaining enums
 - add examples to Rakefile
 - check libsoundio version on install and in specs
 - extend FFI to DRY up:
