@@ -6,7 +6,6 @@
 
 ### TODO
 
-- move module methods to applicable files and remove module requires
 - implement record example
 - add examples to Rakefile
 - check libsoundio version on install and in specs

@@ -1,7 +1,7 @@
 require 'sound_io'
 require 'sound_io/enums'
 
-module SoundIO
+module SoundIO  
   class Error < StandardError
     attr_reader :string
 

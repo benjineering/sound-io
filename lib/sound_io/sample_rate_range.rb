@@ -14,5 +14,9 @@ module SoundIO
     def max
       self[:max]
     end
+
+    def to_range
+      self[:min]..self[:max]
+    end
   end
 end

@@ -51,7 +51,7 @@ module SoundIO
           raise new Error('samples length exceeds frame_count')
         end
 
-        @channel_count.times { |i| write(samples, 0, offset) }
+        @channel_count.times { |i| write(samples, i, offset) }
       end
 
       alias_method :<<, :write_mono
