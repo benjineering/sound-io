@@ -1,23 +1,12 @@
+require 'sound_io/output/channel_areas'
+
 module SoundIO
   module Output
-    class ChannelAreas < FFI::Struct
-      layout(areas: :pointer)
-
-      def write(sample, channel_idx, offset)
-        # TODO: DRY arrays
-        increment = channel_idx * ChannelArea.size
-        area = ChannelArea.new(self[:areas] + increment)
-        pointer = FFI::Pointer.new(area.ptr + area.step * offset)
-        pointer.write(:float, sample)
-      end
-    end
-
-
     class Buffer
-      attr_reader :areas, :frame_count_ptr
+      attr_accessor :areas, :frame_count_ptr
 
       def initialize(frame_count, channel_count)
-        @areas = Output::ChannelAreas.new
+        @areas = ChannelAreas.new
         @frame_count_ptr = FFI::MemoryPointer.new(:int)
         self.frame_count = frame_count
         @channel_count = channel_count
@@ -48,9 +37,9 @@ module SoundIO
       def write_mono(samples, offset = 0)
         if samples.is_a?(Array) && samples.length > frame_count
           raise new Error('samples length exceeds frame_count')
-        end  
+        end
 
-        (0...@channel_count).each { |c| write(samples, c, offset) }
+        @channel_count.times { |i| write(samples, 0, offset) }
       end
 
       alias_method :<<, :write_mono

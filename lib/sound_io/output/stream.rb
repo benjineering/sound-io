@@ -67,25 +67,25 @@ module SoundIO
       end
 
       def begin_write(requested_frame_count)
-        if @buffer.nil?
-          channel_count = self[:layout].channel_count
-          @buffer = Buffer.new(requested_frame_count, channel_count)
-        end
+        buffer = Buffer.new(requested_frame_count, self[:layout].channel_count)
+        areas = ChannelAreas.new
 
         error = SoundIO.outstream_begin_write(
           self, 
-          @buffer.areas, 
-          @buffer.frame_count_ptr
+          areas,
+          buffer.frame_count_ptr
         )
 
         unless error == :none
           raise SoundIO::Error.new('Error beginning write', error)
         end
 
+        buffer.areas = areas
+
         if block_given?
           begin
-            yield @buffer
-          rescue => ex
+            yield buffer
+          rescue => ex          
             unless self[:error_callback].nil?
               self[:error_callback].call(self, ex)
             end
@@ -93,7 +93,7 @@ module SoundIO
   
           end_write
         else
-          return @buffer
+          return buffer
         end
       end
 
