@@ -4,14 +4,18 @@ require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/error'
 require 'sound_io/ring_buffer'
-require 'sound_io/output/stream'
-require 'sound_io/output/buffer'
-require 'sound_io/input/stream'
-require 'sound_io/input/buffer_context'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
-require 'sound_io/sound_io' # ext
+
+require 'sound_io/output/stream'
+require 'sound_io/output/buffer'
+
+require 'sound_io/input/stream'
+require 'sound_io/input/record_context'
+
+# ext
+require 'sound_io/sound_io'
 
 require 'ffi'
 

@@ -22,6 +22,10 @@ module SoundIO
         bytes_per_sample: :int,
         layout_error: SoundIO::ERROR
       )
+
+      def open
+        SoundIO.instream_open(self)
+      end
     end
   end
 end

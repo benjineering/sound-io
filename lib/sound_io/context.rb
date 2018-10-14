@@ -70,6 +70,17 @@ module SoundIO
       end
     end
 
+    def input_device(idx = nil)
+      idx = SoundIO.default_input_device_index(self) if idx.nil?
+      return nil if idx < 0
+
+      dev = SoundIO.get_input_device(self, idx)
+      return nil if dev.nil?
+
+      SoundIO.device_ref(dev) # unref called in Device.release
+      dev
+    end
+
     def output_devices
       count = SoundIO.output_device_count(self)
       return [] if count < 1

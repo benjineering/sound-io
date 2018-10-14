@@ -79,6 +79,19 @@ module SoundIO
 			stream
 		end
 
+		def create_in_stream(options = {})
+			stream = SoundIO.instream_create(self)
+			raise Error.no_memory if stream.nil?
+			options.each { |k, v| stream[k.to_sym] = v }
+
+			if options[:format].nil?
+				raise Error.new('Device has no available layouts') if format_count < 1
+				stream.format = formats.first
+			end
+
+			stream
+		end
+
 		def raw?
 			self[:is_raw]
 		end
@@ -99,7 +112,11 @@ module SoundIO
 
 		def current_layout
 			self[:current_layout] == :invalid ? nil : self[:current_layout]
-    end
+		end
+		
+		def sort_channel_layouts
+			SoundIO.device_sort_channel_layouts(self)
+		end
 
     def sample_rate_count
       self[:sample_rate_count]
@@ -117,7 +134,19 @@ module SoundIO
 
     def sample_rate_current
       self[:sample_rate_current] == 0 ? nil : self[:sample_rate_current]
-    end
+		end
+		
+		def supports_sample_rate(rate)
+			SoundIO.device_supports_sample_rate(self, rate)
+		end
+
+		def supports_layout(layout)
+			SoundIO.device_supports_layout(self, layout)
+		end
+
+		def supports_format(fmt)
+			SoundIO.device_supports_format(self, fmt)
+		end
 
     def format_count
       self[:format_count]

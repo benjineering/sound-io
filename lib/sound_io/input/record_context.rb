@@ -3,7 +3,7 @@ require 'ffi'
 
 module SoundIO
   module Input
-    class BufferContext < FFI::Struct
+    class RecordContext < FFI::Struct
       layout(ring_buffer: SoundIO::RingBuffer.ptr)
     end
   end

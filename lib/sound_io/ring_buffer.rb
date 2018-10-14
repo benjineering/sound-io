@@ -1,7 +1,9 @@
 require 'ffi'
 
 module SoundIO
+
+  # opaque struct
   class RingBuffer < FFI::Struct
-    # TODO: ???
+    layout(dummy: :pointer)
   end
 end
