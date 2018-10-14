@@ -1,9 +1,21 @@
-require 'sound_io/output/channel_areas'
-
 module SoundIO
   module Output
+    class ChannelAreas < FFI::Struct
+      layout(areas: :pointer)
+
+      def write(sample, channel_idx, offset)
+        # TODO: DRY arrays
+        increment = channel_idx * SoundIO::ChannelArea.size
+        area = SoundIO::ChannelArea.new(self[:areas] + increment)
+        pointer = FFI::Pointer.new(area.ptr + area.step * offset)
+        pointer.write(:float, sample)
+      end
+    end
+
+    private_constant :ChannelAreas
+
     class Buffer
-      attr_accessor :areas, :frame_count_ptr
+      attr_reader :areas, :frame_count_ptr
 
       def initialize(frame_count, channel_count)
         @areas = ChannelAreas.new
