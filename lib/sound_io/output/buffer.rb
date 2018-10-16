@@ -35,7 +35,7 @@ module SoundIO
       def write(samples, channel_idx, offset = 0)
         if samples.is_a?(Array)
           if samples.length > frame_count
-            raise new Error('samples length exceeds frame_count')
+            raise Error.new('samples length exceeds frame_count')
           end
 
           samples.each_with_index do |s, i|

@@ -3,16 +3,16 @@ require 'sound_io/device'
 require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/error'
-require 'sound_io/ring_buffer'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
+require 'sound_io/ring_buffer'
 
 require 'sound_io/output/stream'
 require 'sound_io/output/buffer'
 
 require 'sound_io/input/stream'
-require 'sound_io/input/record_context'
+require 'sound_io/input/buffer'
 
 # ext
 require 'sound_io/sound_io'
@@ -54,7 +54,7 @@ module SoundIO
 	attach_function :soundio_get_output_device, [Context.ptr, :int], Device.ptr
 	attach_function :soundio_default_input_device_index, [Context.ptr], :int
 	attach_function :soundio_default_output_device_index, [Context.ptr], :int
-	attach_function :soundio_ring_buffer_create, [Context.ptr, :int], RingBuffer.ptr
+	attach_function :soundio_ring_buffer_create, [Context.ptr, :int], SoundIO::RingBuffer.ptr
 
 	# device
 	attach_function :soundio_device_equal, [Device.ptr, Device.ptr], :bool
@@ -103,21 +103,21 @@ module SoundIO
 	attach_function :soundio_instream_destroy, [Input::Stream.ptr], :void
 	attach_function :soundio_instream_open, [Input::Stream.ptr], :error
 	attach_function :soundio_instream_start, [Input::Stream.ptr], :error
-	attach_function :soundio_instream_begin_read, [Input::Stream.ptr, :pointer, :pointer], :int
+	attach_function :soundio_instream_begin_read, [Input::Stream.ptr, :pointer, :pointer], :error
 	attach_function :soundio_instream_end_read, [Input::Stream.ptr], :int
 	attach_function :soundio_instream_pause, [Input::Stream.ptr, :bool], :int
 	attach_function :soundio_instream_get_latency, [Input::Stream.ptr, :pointer], :int
 
-  # ringbuffer
-	attach_function :soundio_ring_buffer_destroy, [RingBuffer.ptr], :void
-	attach_function :soundio_ring_buffer_capacity, [RingBuffer.ptr], :int
-	attach_function :soundio_ring_buffer_write_ptr, [RingBuffer.ptr], :pointer
-	attach_function :soundio_ring_buffer_advance_write_ptr, [RingBuffer.ptr, :int], :void
-	attach_function :soundio_ring_buffer_read_ptr, [RingBuffer.ptr], :pointer
-	attach_function :soundio_ring_buffer_advance_read_ptr, [RingBuffer.ptr, :int], :void
-	attach_function :soundio_ring_buffer_fill_count, [RingBuffer.ptr], :int
-	attach_function :soundio_ring_buffer_free_count, [RingBuffer.ptr], :int
-	attach_function :soundio_ring_buffer_clear, [RingBuffer.ptr], :void
+	# ringbuffer
+	attach_function :soundio_ring_buffer_destroy, [SoundIO::RingBuffer.ptr], :void
+	attach_function :soundio_ring_buffer_capacity, [SoundIO::RingBuffer.ptr], :int
+	attach_function :soundio_ring_buffer_write_ptr, [SoundIO::RingBuffer.ptr], :pointer
+	attach_function :soundio_ring_buffer_advance_write_ptr, [SoundIO::RingBuffer.ptr, :int], :void
+	attach_function :soundio_ring_buffer_read_ptr, [SoundIO::RingBuffer.ptr], :pointer
+	attach_function :soundio_ring_buffer_advance_read_ptr, [SoundIO::RingBuffer.ptr, :int], :void
+	attach_function :soundio_ring_buffer_fill_count, [SoundIO::RingBuffer.ptr], :int
+	attach_function :soundio_ring_buffer_free_count, [SoundIO::RingBuffer.ptr], :int
+	attach_function :soundio_ring_buffer_clear, [SoundIO::RingBuffer.ptr], :void
 
 	# alias soundio_ methods
 	class << self

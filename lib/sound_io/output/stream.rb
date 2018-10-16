@@ -39,7 +39,7 @@ module SoundIO
       end
 
       def error_callback=(proc)
-        self[:error_callback] = lambda do |stream, error| 
+        self[:error_callback] = -> stream, error do
           proc.call(SoundIO::Error.new('Output stream error callback', error))
         end
       end

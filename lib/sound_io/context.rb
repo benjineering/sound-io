@@ -110,5 +110,9 @@ module SoundIO
     def wakeup
       SoundIO.wakeup(self)
     end
+
+    def create_ring_buffer(capacity)
+      SoundIO.ring_buffer_create(self, capacity)
+    end
   end
 end

@@ -7,8 +7,11 @@
 ### TODO
 
 - implement record example
-- snake case remaining enums
+- create abstract stream class
 - add examples to Rakefile
+- snake case remaining enums
+- implement 
+- generate docs
 - check libsoundio version on install and in specs
 - extend FFI to DRY up:
   - char * to string

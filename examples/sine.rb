@@ -9,7 +9,7 @@ sio.flush_events
 out_stream = sio.output_device.create_out_stream
 sine = Synthesize.sine(440, 1).wave_table
 
-out_stream.write_callback = lambda do |stream, frame_min, frame_max|
+out_stream.write_callback = -> stream, frame_min, frame_max do
   stream.write(frame_max) do |buffer|
     frame_count = buffer.frame_count
     next if frame_count < 0
@@ -18,7 +18,7 @@ out_stream.write_callback = lambda do |stream, frame_min, frame_max|
   end
 end
 
-out_stream.error_callback = lambda do |stream, error|
+out_stream.error_callback = -> stream, error do
   sio.wakeup
   puts error
 end
