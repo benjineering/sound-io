@@ -1,11 +1,12 @@
 require 'bundler/setup'
 require 'sound_io'
 require 'wavefile'
-#require 'SVG/Graph/Line'
 
-RECORD_SECS = 6
-RATE = 44100 # PRIORITISED_SAMPLE_RATES.find { |r| device.supports_sample_rate(r) }
-FORMAT = :float32le # PRIORITISED_FORMATS.find { |f| device.supports_format(f) }
+RECORD_SECS = 5
+RATE = 44100
+FORMAT = :float32le
+WAV_FORMAT = :float_32
+OUT_PATH = File.expand_path('~/Desktop/record.wav')
 
 sio = SoundIO::Context.new
 sio.connect
@@ -15,10 +16,11 @@ device = sio.input_device
 device.sort_channel_layouts
 
 in_stream = device.create_in_stream(format: FORMAT, sample_rate: RATE)
+in_stream.open
+channel_count = in_stream.channel_layout.channel_count
 
-# TODO: create wav format and outpath dynamically
-wav_format = WaveFile::Format.new(:mono, :float_32, RATE)
-wav_writer = WaveFile::Writer.new('/Users/ben/Desktop/record.wav', wav_format)
+wav_format = WaveFile::Format.new(channel_count, WAV_FORMAT, RATE)
+wav_writer = WaveFile::Writer.new(OUT_PATH, wav_format)
 
 in_stream.read_callback = -> stream, frame_min, frame_max do
   stream.read(frame_max) do |buffer|
@@ -27,7 +29,16 @@ in_stream.read_callback = -> stream, frame_min, frame_max do
     samples = buffer.read_all
 
     unless samples.empty?
-      wav_buffer = WaveFile::Buffer.new(samples.first, wav_format)
+
+      # gotta make columns rows for WaveFile
+      # maybe I should just output in this format from buffer?
+      rotated = Array.new(samples.first.length, Array.new(samples.length))
+
+      samples.first.length.times do |sample_idx|
+        rotated[sample_idx] = samples.collect { |channel| channel[sample_idx] }
+      end
+
+      wav_buffer = WaveFile::Buffer.new(rotated, wav_format)
       wav_writer.write(wav_buffer)
     end
   end
@@ -36,7 +47,6 @@ end
 in_stream.overflow_callback = -> stream { puts 'overflow!' }
 in_stream.error_callback = -> stream, error { puts error }
 
-in_stream.open
 in_stream.start
 
 secs = 0

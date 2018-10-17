@@ -6,7 +6,6 @@
 
 ### TODO
 
-- implement record example
 - create abstract stream class
 - add examples to Rakefile
 - snake case remaining enums
