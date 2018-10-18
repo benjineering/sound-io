@@ -8,11 +8,10 @@ require 'sound_io/channel_area'
 require 'sound_io/format'
 require 'sound_io/ring_buffer'
 
+require 'sound_io/buffer'
+require 'sound_io/stream'
 require 'sound_io/output/stream'
-require 'sound_io/output/buffer'
-
 require 'sound_io/input/stream'
-require 'sound_io/input/buffer'
 
 # ext
 require 'sound_io/sound_io'
@@ -94,7 +93,7 @@ module SoundIO
 	attach_function :soundio_outstream_open, [Output::Stream.ptr], :error
 	attach_function :soundio_outstream_start, [Output::Stream.ptr], :error
 	attach_function :soundio_outstream_begin_write, [Output::Stream.ptr, :pointer, :pointer], :error
-	attach_function :soundio_outstream_end_write, [Output::Stream.ptr], :int
+	attach_function :soundio_outstream_end_write, [Output::Stream.ptr], :error
 	attach_function :soundio_outstream_clear_buffer, [Output::Stream.ptr], :int
 	attach_function :soundio_outstream_pause, [Output::Stream.ptr, :bool], :int
 	attach_function :soundio_outstream_get_latency, [Output::Stream.ptr, :pointer], :int
@@ -104,7 +103,7 @@ module SoundIO
 	attach_function :soundio_instream_open, [Input::Stream.ptr], :error
 	attach_function :soundio_instream_start, [Input::Stream.ptr], :error
 	attach_function :soundio_instream_begin_read, [Input::Stream.ptr, :pointer, :pointer], :error
-	attach_function :soundio_instream_end_read, [Input::Stream.ptr], :int
+	attach_function :soundio_instream_end_read, [Input::Stream.ptr], :error
 	attach_function :soundio_instream_pause, [Input::Stream.ptr, :bool], :int
 	attach_function :soundio_instream_get_latency, [Input::Stream.ptr, :pointer], :int
 

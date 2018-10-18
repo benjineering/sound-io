@@ -15,15 +15,15 @@ sio.flush_events
 device = sio.input_device
 device.sort_channel_layouts
 
-in_stream = device.create_in_stream(format: FORMAT, sample_rate: RATE)
-in_stream.open
-channel_count = in_stream.channel_layout.channel_count
+stream = device.create_in_stream(format: FORMAT, sample_rate: RATE)
+stream.open
+channel_count = stream.channel_layout.channel_count
 
 wav_format = WaveFile::Format.new(channel_count, WAV_FORMAT, RATE)
 wav_writer = WaveFile::Writer.new(OUT_PATH, wav_format)
 
-in_stream.read_callback = -> stream, frame_min, frame_max do
-  stream.read(frame_max) do |buffer|
+stream.read_callback do |sample_range|
+  stream.read(sample_range.max) do |buffer|
     frame_count = buffer.frame_count
     next if frame_count < 0
     samples = buffer.read_all
@@ -44,10 +44,10 @@ in_stream.read_callback = -> stream, frame_min, frame_max do
   end
 end
 
-in_stream.overflow_callback = -> stream { puts 'overflow!' }
-in_stream.error_callback = -> stream, error { puts error }
+stream.overflow_callback { puts 'overflow!' }
+stream.error_callback { |error| puts error }
 
-in_stream.start
+stream.start
 
 secs = 0
 loop do

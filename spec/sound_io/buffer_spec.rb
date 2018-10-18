@@ -1,4 +1,4 @@
-RSpec.describe SoundIO::Output::Buffer do
+RSpec.describe SoundIO::Buffer do
   skip '#areas'
   
   skip '#frame_count_ptr'

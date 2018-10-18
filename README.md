@@ -2,22 +2,23 @@
 
 ## A Ruby gem FFI wrapper for libstdio
 
----
+Under construction...
 
-### TODO
+### ROADMAP
 
-- create abstract stream class
-- add examples to Rakefile
+- handle write stereo
 - snake case remaining enums
-- implement 
-- generate docs
-- check libsoundio version on install and in specs
+- show implementation stats and details by running `rake implementation`
+- add examples to Rakefile
+- implement ring buffer
 - extend FFI to DRY up:
   - char * to string
   - array of structs
   - array of enums
+- figure out why errors aren't raised inside callbacks
+- implement all specs
+- generate docs
+- check libsoundio version on install and in specs
 - take out `synthezise` gem and implement sine wave inline
-- show implementation stats and details by running `rake implementation`
 - create docker instances for testing
 - automate test running over Docker instances
-- implement all tests
