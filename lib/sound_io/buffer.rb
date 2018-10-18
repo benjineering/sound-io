@@ -41,11 +41,8 @@ module SoundIO
       @frame_count_ptr.write_int(num)
     end
     
-    def read(n, channel_idx, offset = 0)        
-      raise Error.new('n exceeds frame_count') if n > frame_count
-
-      return @areas.read(channel_idx, offset) if n == 1
-      
+    def read(n, channel_idx, offset = 0)
+      return @areas.read(channel_idx, offset) if n == 1    
       data = Array.new(n);
       n.times { |i| data << @areas.read(channel_idx, offset + i) }
       data
@@ -68,10 +65,6 @@ module SoundIO
     
     def write(samples, channel_idx, offset = 0)
       if samples.is_a?(Array)
-        if samples.length > frame_count
-          raise Error.new('samples length exceeds frame_count')
-        end
-
         samples.each_with_index do |s, i|
           @areas.write(s, channel_idx, offset + i)
         end
@@ -80,15 +73,18 @@ module SoundIO
       end
     end
 
-    # TODO: change to write_all and handle multiple channels
-    def write_mono(samples, offset = 0)
-      if samples.is_a?(Array) && samples.length > frame_count
-        raise new Error('samples length exceeds frame_count')
+    def write_all(samples)
+      if samples.first.is_a?(Array)
+        samples.each_with_index do |channel, channel_idx|
+          channel.each_with_index do |sample, offset|
+            write(sample, channel_idx, offset)
+          end
+        end
+      else
+        @channel_count.times { |i| write(samples, i) }
       end
-
-      @channel_count.times { |i| write(samples, i, offset) }
     end
 
-    alias_method :<<, :write_mono
+    alias_method :<<, :write_all
   end
 end

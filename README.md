@@ -8,6 +8,7 @@ Under construction...
 
 - handle write stereo
 - snake case remaining enums
+- raise on buffer read and write out of bounds
 - show implementation stats and details by running `rake implementation`
 - add examples to Rakefile
 - implement ring buffer
@@ -22,3 +23,5 @@ Under construction...
 - take out `synthezise` gem and implement sine wave inline
 - create docker instances for testing
 - automate test running over Docker instances
+- make buffer rotation a module setting?
+  - look at core audio buffer shape
