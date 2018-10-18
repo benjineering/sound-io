@@ -10,3 +10,4 @@
 examples/c/bin/
 *.bundle
 .vscode
+Gemfile.lock

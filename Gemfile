@@ -6,4 +6,3 @@ gemspec
 
 gem 'synthesize', path: '../rSynthesize'
 gem 'wavefile'
-gem 'svg-graph'
