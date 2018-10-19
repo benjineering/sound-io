@@ -92,11 +92,6 @@ module SoundIO
 	attach_function :soundio_get_bytes_per_sample, [:format], :int
 	attach_function :soundio_format_string, [:format], :string
 
-	# TODO: maybe implement C functions to call these two if possible.
-	#   FFI is not finding them because they're static.
-	# attach_function :soundio_get_bytes_per_frame, [:format, :int], :int
-	# attach_function :soundio_get_bytes_per_second, [:format, :int, :int], :int
-
   # outstream
 	attach_function :soundio_outstream_destroy, [Output::Stream.ptr], :void
 	attach_function :soundio_outstream_open, [Output::Stream.ptr], :error

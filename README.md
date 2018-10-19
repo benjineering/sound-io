@@ -6,9 +6,6 @@ Under construction...
 
 ### ROADMAP
 
-- implementation
-  - implement all module functions
-  - implement all struct members
 - safety
   - check libsoundio version on install and in specs
   - raise on buffer read and write out of bounds
