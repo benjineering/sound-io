@@ -6,7 +6,6 @@ Under construction...
 
 ### ROADMAP
 
-- snake case remaining enums
 - raise on buffer read and write out of bounds
 - show implementation stats and details by running `rake implementation`
 - add examples to Rakefile
@@ -23,5 +22,7 @@ Under construction...
 - create docker instances for testing
 - automate test running over Docker instances
 - optimise
+  - implement buffer in c
+  - check callback proc & blocks
 - make buffer rotation a module setting?
   - look at core audio buffer shape
