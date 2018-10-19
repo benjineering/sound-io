@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
-
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
-
 gemspec
 
-gem 'synthesize', path: '../rSynthesize'
+gem 'synthesize', github: 'benjineering/rSynthesize'
 gem 'wavefile'

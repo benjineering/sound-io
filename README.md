@@ -8,7 +8,7 @@ Under construction...
 
 - implement CI
   - just dummy backend for now
-  - add to readme
+  - add status to readme
 - implement buffer in c
 - implement all specs
   - use fixtures or factories
