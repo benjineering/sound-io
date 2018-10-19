@@ -83,6 +83,12 @@ module SoundIO
       unless error == :none
         raise SoundIO::Error.new('Error starting stream', error)
       end
+
+      if block_given?
+        self[:action_callback] = -> stream, samples_min, samples_max do
+          yield samples_min..samples_max
+        end
+      end
     end
 
     def begin_action(requested_frame_count)

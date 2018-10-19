@@ -6,7 +6,6 @@ Under construction...
 
 ### ROADMAP
 
-- combine start with action_callback if block passed
 - implementation
   - implement ring buffer
   - implement all module functions

@@ -22,7 +22,10 @@ channel_count = stream.channel_layout.channel_count
 wav_format = WaveFile::Format.new(channel_count, WAV_FORMAT, RATE)
 wav_writer = WaveFile::Writer.new(OUT_PATH, wav_format)
 
-stream.read_callback do |sample_range|
+stream.overflow_callback { puts 'overflow!' }
+stream.error_callback { |error| puts error }
+
+stream.start do |sample_range|
   stream.read(sample_range.max) do |buffer|
     frame_count = buffer.frame_count
     next if frame_count < 0
@@ -31,7 +34,6 @@ stream.read_callback do |sample_range|
     unless samples.empty?
 
       # gotta make columns rows for WaveFile
-      # maybe I should just output in this format from buffer?
       rotated = Array.new(samples.first.length, Array.new(samples.length))
 
       samples.first.length.times do |sample_idx|
@@ -43,11 +45,6 @@ stream.read_callback do |sample_range|
     end
   end
 end
-
-stream.overflow_callback { puts 'overflow!' }
-stream.error_callback { |error| puts error }
-
-stream.start
 
 secs = 0
 loop do
