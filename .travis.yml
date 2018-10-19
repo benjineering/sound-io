@@ -4,6 +4,14 @@ cache: bundler
 rvm:
   - 2.5.1
 before_install:
+  - wget http://libsound.io/release/libsoundio-1.1.0.tar.gz
+  - tar -xzf libsoundio-1.1.0.tar.gz
+  - cd libsoundio-1.1.0
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make install
   - gem install bundler -v '~> 1.16'
   - bundle install
   - bin/setup
