@@ -6,8 +6,6 @@ Under construction...
 
 ### ROADMAP
 
-- implement channel class
-- move lib functions to separate file
 - implement CI
   - just dummy backend for now
   - add to readme
