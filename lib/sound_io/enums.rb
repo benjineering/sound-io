@@ -31,7 +31,6 @@ module SoundIO
     :float64le, :float64be
   ])
 
-  # TODO: snake case
   CHANNEL_ID = enum(:channel_id, [
     :invalid,
     :front_left,

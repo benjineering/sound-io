@@ -5,19 +5,19 @@ module SoundIO
     layout(areas: :pointer)
     
     def read(channel_idx, offset)
-      # TODO: DRY arrays
-      increment = channel_idx * SoundIO::ChannelArea.size
-      area = SoundIO::ChannelArea.new(self[:areas] + increment)
-      pointer = FFI::Pointer.new(area.ptr + area.step * offset)
-      pointer.read_float
+      pointer(channel_idx, offset).read_float
     end
 
     def write(sample, channel_idx, offset)
-      # TODO: DRY arrays
+      pointer(channel_idx, offset).write(:float, sample)
+    end
+
+    private
+
+    def pointer(channel_idx, offset)
       increment = channel_idx * SoundIO::ChannelArea.size
       area = SoundIO::ChannelArea.new(self[:areas] + increment)
-      pointer = FFI::Pointer.new(area.ptr + area.step * offset)
-      pointer.write(:float, sample)
+      FFI::Pointer.new(area.ptr + area.step * offset)
     end
   end
 

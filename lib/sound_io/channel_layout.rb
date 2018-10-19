@@ -20,7 +20,7 @@ module SoundIO
       SoundIO.channel_layout_get_default(channel_count)
     end
 
-    # TODO: this probably doesn't work...
+    # TODO: this........... probably doesn't work.
     def self.best_matching(preferred_layouts, available_layouts)
       SoundIO.best_matching_channel_layout(
         preferred_layouts.first,

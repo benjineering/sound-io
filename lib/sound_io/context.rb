@@ -113,7 +113,7 @@ module SoundIO
       count = SoundIO.input_device_count(self)
       return [] if count < 1
 
-      (0...count).collect do |i|
+      count.times.collect do |i|
         dev = SoundIO.get_input_device(self, i)
         SoundIO.device_ref(dev) # unref called in Device.release
         dev
@@ -135,7 +135,7 @@ module SoundIO
       count = SoundIO.output_device_count(self)
       return [] if count < 1
 
-      (0...count).collect do |i|
+      count.times.collect do |i|
         dev = SoundIO.get_output_device(self, i)
         SoundIO.device_ref(dev) # unref called in Device.release
         dev

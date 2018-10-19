@@ -6,23 +6,17 @@ Under construction...
 
 ### ROADMAP
 
-- safety
-  - check libsoundio version on install and in specs
-  - raise on buffer read and write out of bounds
-- write docs
-- extend FFI to DRY up:
-  - char * to string
-  - array of structs
-  - array of enums
+- implement channel class
+- implement buffer in c
 - implement all specs
   - use fixtures or factories
 - figure out why errors aren't raised inside callbacks
+- write docs
 - release
   - take out `synthezise` gem and implement sine wave inline
   - create docker instances for testing
   - automate test running over Docker instances
 - optimise
-  - implement buffer in c
   - check callback proc & blocks
 - make buffer rotation a module setting?
   - look at core audio buffer shape

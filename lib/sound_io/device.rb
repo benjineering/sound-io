@@ -4,7 +4,9 @@ require 'sound_io/enums'
 require 'sound_io/channel_layout'
 require 'sound_io/sample_rate_range'
 require 'sound_io/error'
+
 require 'ffi'
+require 'ffi/struct_methods'
 
 module SoundIO
 	class Device < FFI::ManagedStruct
@@ -47,14 +49,8 @@ module SoundIO
 			self[:aim]
 		end
 
-    def layouts
-      # TODO: DRY arrays
-			layout_size = ChannelLayout.size
-
-			(0...self[:layout_count]).collect do |i|
-				increment = i * layout_size
-				ChannelLayout.new(self[:layouts] + increment)
-      end
+		def layouts
+			read_array_of_type(ChannelLayout, :layouts, :layout_count)
 		end
 
 		def layout_count
@@ -66,13 +62,8 @@ module SoundIO
 		end
 
 		def formats
-			# TODO: DRY arrays
-			format_size = FORMAT.native_type.size
-
-			(0...self[:format_count]).collect do |i|
-				num = (self[:formats] + i).read(FORMAT.native_type)
-				sym = FORMAT[num]
-				Format.new(sym)
+			read_array_of_type(FORMAT, :formats, :format_count).collect do |f|
+				Format.new(f)
 			end
 		end		
 
@@ -86,13 +77,7 @@ module SoundIO
     end
     
 		def sample_rates
-			# TODO: DRY arrays
-			rate_size = SampleRateRange.size
-
-			(0...self[:sample_rate_count]).collect do |i|
-				increment = i * rate_size
-				SampleRateRange.new(self[:sample_rates] + increment)
-			end
+			read_array_of_type(SampleRateRange, :sample_rates, :sample_rate_count)
     end
 
     def sample_rate_count
@@ -153,25 +138,22 @@ module SoundIO
 		end
 
 		def create_out_stream(options = {})
-			stream = SoundIO.outstream_create(self)
-			raise Error.no_memory if stream.nil?
-			options.each { |k, v| stream[k.to_sym] = v }
-
-			if options[:format].nil?
-				raise Error.new('Device has no available layouts') if format_count < 1
-				stream.format = formats.first
-			end
-
-			stream
+			create_stream(:out, options)
 		end
 
 		def create_in_stream(options = {})
-			stream = SoundIO.instream_create(self)
+			create_stream(:in, options)
+		end
+
+		private
+
+		def create_stream(type, options = {})
+			stream = SoundIO.send("#{type}stream_create", self)
 			raise Error.no_memory if stream.nil?
 			options.each { |k, v| stream[k.to_sym] = v }
 
 			if options[:format].nil?
-				raise Error.new('Device has no available layouts') if format_count < 1
+				raise Error.new('Device has no available formats') if format_count < 1
 				stream.format = formats.first
 			end
 
