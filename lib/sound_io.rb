@@ -3,6 +3,7 @@ require 'sound_io/device'
 require 'sound_io/context'
 require 'sound_io/enums'
 require 'sound_io/error'
+require 'sound_io/channel'
 require 'sound_io/channel_layout'
 require 'sound_io/channel_area'
 require 'sound_io/format'
@@ -30,16 +31,7 @@ module SoundIO
 	attach_function :soundio_have_backend, [:backend], :bool
 	attach_function :soundio_backend_name, [:backend], :string
 
-	check_lib_version
-
-	# TODO: Channel should probably be a separate class
-	def self.get_channel_name(channel_id)
-		SoundIO.soundio_get_channel_name(channel_id)
-	end
-
-	def self.get_channel_id(channel_name)
-		SoundIO.parse_channel_id(channel_name, channel_name.length)
-	end
+	check_lib_version # implemented in version.rb
 
 	# error
 	attach_function :soundio_strerror, [:error], :string
