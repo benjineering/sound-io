@@ -7,7 +7,6 @@ Under construction...
 ### ROADMAP
 
 - implementation
-  - implement ring buffer
   - implement all module functions
   - implement all struct members
 - safety
