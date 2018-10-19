@@ -7,8 +7,8 @@ sio.connect
 sio.flush_events
 
 out_stream = sio.output_device.create_out_stream
-sine = Synthesize.sine(300, 1).wave_table
-square = Synthesize.square(380, 1).wave_table
+sine = Synthesize.sine(300, 0.3).wave_table
+square = Synthesize.square(380, 0.2).wave_table
 
 out_stream.write_callback do |sample_range|
   out_stream.write(sample_range.max) do |buffer|
