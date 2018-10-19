@@ -62,7 +62,7 @@ module SoundIO
 		end
 
 		def current_layout
-			self[:current_layout] == :invalid ? nil : self[:current_layout]
+			self[:current_layout]
 		end
 
 		def formats

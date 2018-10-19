@@ -32,6 +32,15 @@ module SoundIO
 	attach_function :soundio_have_backend, [:backend], :bool
 	attach_function :soundio_backend_name, [:backend], :string
 
+	# TODO: Channel should probably be a separate class
+	def self.get_channel_name(channel_id)
+		SoundIO.soundio_get_channel_name(channel_id)
+	end
+
+	def self.get_channel_id(channel_name)
+		SoundIO.parse_channel_id(channel_name, channel_name.length)
+	end
+
 	# error
 	attach_function :soundio_strerror, [:error], :string
 
