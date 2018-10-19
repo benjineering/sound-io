@@ -7,11 +7,11 @@ module SoundIO
     layout(
       userdata: :pointer,
       on_devices_change: callback([Context.ptr], :void),
-      on_backend_disconnect: callback([Context.ptr, :int], :void),
+      on_backend_disconnect: callback([Context.ptr, SoundIO::ERROR], :void),
       on_events_signal: callback([Context.ptr], :void),
       current_backend: :backend,
       app_name: :string,
-      emit_rtprio_warning: callback([], :void),
+      emit_rtprio_warning: callback([:void], :void),
       jack_info_callback: callback([:string], :void),
       jack_error_callback: callback([:string], :void)
     )
@@ -26,8 +26,40 @@ module SoundIO
       SoundIO.destroy(ptr)
     end
 
+    def on_devices_change
+      self[:on_devices_change] = -> { yield }
+    end
+
+    def on_backend_disconnect
+      self[:on_backend_disconnect] = -> error { yield error }
+    end
+
+    def on_events_signal
+      self[:on_events_signal] = -> { yield }
+    end
+
     def current_backend
       self[:current_backend]
+    end
+
+    def app_name
+      self[:app_name]
+    end
+
+    def app_name=(name)
+      self[:app_name] = name
+    end
+
+    def emit_rtprio_warning
+      self[:emit_rtprio_warning] = -> { yield }
+    end
+
+    def jack_info_callback
+      self[:jack_info_callback] = -> message { yield message }
+    end
+
+    def jack_error_callback
+      self[:jack_error_callback] = -> message { yield message }
     end
 
     def connect(backend = nil)
@@ -47,8 +79,26 @@ module SoundIO
       SoundIO.disconnect(self)
     end
 
+    def backends
+      SoundIO.backend_count(self).times.collect do |i|
+        SoundIO.get_backend(self, i)
+      end
+    end
+
     def flush_events
       SoundIO.flush_events(self)
+    end
+
+    def wait_events
+      SoundIO.wait_events(self)
+    end
+
+    def wakeup
+      SoundIO.wakeup(self)
+    end
+
+    def force_device_scan
+      SoundIO.force_device_scan(self)
     end
 
     def default_output_device_index
@@ -101,14 +151,6 @@ module SoundIO
 
       SoundIO.device_ref(dev) # unref called in Device.release
       dev
-    end
-
-    def wait_events
-      SoundIO.wait_events(self)
-    end
-
-    def wakeup
-      SoundIO.wakeup(self)
     end
 
     def create_ring_buffer(capacity)
