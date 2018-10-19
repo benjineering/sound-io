@@ -14,9 +14,9 @@ Under construction...
   - char * to string
   - array of structs
   - array of enums
-- figure out why errors aren't raised inside callbacks
 - implement all specs
   - use fixtures or factories
+- figure out why errors aren't raised inside callbacks
 - release
   - take out `synthezise` gem and implement sine wave inline
   - create docker instances for testing

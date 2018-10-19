@@ -13,8 +13,7 @@ require 'sound_io/stream'
 require 'sound_io/output/stream'
 require 'sound_io/input/stream'
 
-# ext
-require 'sound_io/sound_io'
+require 'sound_io/sound_io' # ext
 
 require 'ffi'
 
@@ -31,6 +30,15 @@ module SoundIO
 	attach_function :soundio_version_patch, [], :int
 	attach_function :soundio_have_backend, [:backend], :bool
 	attach_function :soundio_backend_name, [:backend], :string
+
+	if LIB_SOUNDIO_MAJOR_VERSION != soundio_version_major
+		puts %Q{
+WARNING!
+========
+Incompatible libsoundio version detected.
+Expected #{LIB_SOUNDIO_MAJOR_VERSION} but soundio_version_major returned #{soundio_version_major}.
+}
+	end
 
 	# TODO: Channel should probably be a separate class
 	def self.get_channel_name(channel_id)

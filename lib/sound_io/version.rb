@@ -1,3 +1,4 @@
 module SoundIO
   VERSION = '0.1.0'
+  LIB_SOUNDIO_MAJOR_VERSION = 1
 end

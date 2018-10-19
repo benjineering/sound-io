@@ -1,11 +1,15 @@
 RSpec.describe SoundIO do
   let(:context) { SoundIO.create }
 
-  # static
-
   describe '.VERSION' do
     it 'returns a string' do
       expect(SoundIO::VERSION).to be_instance_of String
+    end
+  end
+
+  describe '.LIB_SOUNDIO_MAJOR_VERSION' do
+    it "should match the C libary's major version" do
+      expect(SoundIO::LIB_SOUNDIO_MAJOR_VERSION).to eq SoundIO.version_major
     end
   end
 
