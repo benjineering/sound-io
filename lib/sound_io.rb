@@ -123,11 +123,15 @@ module SoundIO
 		prefix_rex = /^soundio_/
 
 		self.instance_methods.each do |sym|
-			str = sym.to_s
+			if sym == :soundio_have_backend
+				alias_method :has_backend?, sym
+			else
+				str = sym.to_s
 
-			unless str.match(prefix_rex).nil?
-				short_sym = str.gsub(prefix_rex, '').to_sym
-				alias_method short_sym, sym
+				unless str.match(prefix_rex).nil?
+					short_sym = str.gsub(prefix_rex, '').to_sym
+					alias_method short_sym, sym
+				end
 			end
 		end
 	end
