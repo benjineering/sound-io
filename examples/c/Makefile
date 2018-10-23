@@ -1,7 +1,10 @@
-# Example usage:
-#   make example name=list_devices && bin/list_devices
+all: list_devices play record
 
-example: $(name)
+list_devices: list_devices.c
+	cc list_devices.c -lsoundio -o bin/list_devices
 
-$(name): $(name).c
-	cc $(name).c -lsoundio -o bin/$(name)
+play: play.c
+	cc play.c -lsoundio -o bin/play
+
+record: record.c
+	cc record.c -lsoundio -o bin/record
