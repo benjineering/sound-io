@@ -19,7 +19,7 @@ require 'ffi'
 
 module SoundIO
 	extend FFI::Library
-	ffi_lib 'soundio'
+	ffi_lib 'soundio', 'libsoundio.so.1'
 
 	# kneel before the FFI monolith
 	

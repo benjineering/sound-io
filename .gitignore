@@ -13,3 +13,4 @@ examples/c/bin/
 *.dll
 .vscode
 Gemfile.lock
+vendor
