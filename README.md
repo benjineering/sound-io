@@ -4,8 +4,9 @@
 
 Under construction...
 
-### ROADMAP
+### Roadmap
 
+- get specs passing in Debian Docker container
 - implement buffer in c
 - implement all specs
   - use fixtures or factories
