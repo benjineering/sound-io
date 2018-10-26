@@ -18,9 +18,10 @@ Under construction...
 - write docs
 - release
   - take out `synthezise` gem and implement sine wave inline
-- optimises
+- optimisations
   - check callback proc & blocks
 - make buffer rotation a module setting?
   - look at core audio buffer shape
 - maybe install lib
   - look at what NokoGiri does
+- save libpath when compiling extension
