@@ -2,7 +2,7 @@ require 'open3'
 
 RSpec.describe 'list_devices' do
   let(:c_example) do 
-    stdout, stderr, status = Open3.capture3('examples/c/bin/list_devices')
+    stdout, stderr, status = Open3.capture3('bin/examples/list_devices')
     { out: stdout, err: stderr, status: status }
   end
 

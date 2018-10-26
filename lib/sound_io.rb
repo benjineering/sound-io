@@ -19,7 +19,17 @@ require 'ffi'
 
 module SoundIO
 	extend FFI::Library
-	ffi_lib 'soundio', 'libsoundio.so.1'
+
+	ffi_lib case Gem::Platform::local.os
+	when 'darwin'
+		'soundio'
+	when 'linux'
+		'libsoundio.so.1'
+	when 'windows'
+		'libsoundio.dll'
+	else
+		raise "OS not supported: #{Gem::Platform::local.os}"
+	end
 
 	# kneel before the FFI monolith
 	

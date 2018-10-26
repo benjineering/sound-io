@@ -7,7 +7,9 @@ Under construction...
 ### Roadmap
 
 - get specs passing in Debian Docker container
+- create helper to find library and headers
 - implement buffer in c
+- get specs passing in Windows Docker container
 - implement all specs
   - use fixtures or factories
 - figure out why errors aren't raised inside callbacks
