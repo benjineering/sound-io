@@ -7,10 +7,10 @@
 /spec/reports/
 /tmp/
 .rspec_status
-examples/c/bin/
 *.bundle
 *.so
 *.dll
 .vscode
 Gemfile.lock
 vendor
+bin/examples

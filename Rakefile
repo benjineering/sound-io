@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 require 'rake/extensiontask'
 
 EXAMPLES_BASE_DIR = "examples/c"
-EXAMPLES_BIN_DIR = "#{EXAMPLES_BASE_DIR}/bin"
+EXAMPLES_BIN_DIR = "bin/examples"
 
 CLEAN << EXAMPLES_BIN_DIR
 
