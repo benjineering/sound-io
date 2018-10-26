@@ -19,12 +19,10 @@ task 'compile:examples' => :clean do
   Dir.mkdir(EXAMPLES_BIN_DIR)
 
   lib_path = case Gem::Platform::local.os
-  when 'osx'
-    '/usr/local/lib/libsoundio.dylib'
-  when 'linux' #?
-    '/usr/local/lib/libsoundio.so.1' #?
+  when 'darwin' || 'linux'
+    '/usr/local/lib'
   when 'windows'
-    'C:/libsoundio/lib/libsoundio.dll'
+    'C:/libsoundio/lib'
   else
     raise "Unssuported OS: #{Gem::Platform::local.os}"
   end
