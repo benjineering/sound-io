@@ -13,18 +13,23 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+    `git ls-files -z`.split("\x0").reject do |f|
+      f.match(%r{^(test|spec|features)/})
+    end
   end
   
   spec.require_paths = ['lib']
   spec.extensions = ['ext/sound_io/extconf.rb']
+  
+  spec.add_dependency 'ffi', '~> 1.9'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rake-compiler'
+  spec.add_development_dependency 'rake-compiler', '~> 1.0'
+
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'guard-rspec', '~> 4.7'
+
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'simplecov'
-
-  spec.add_dependency 'ffi', '~> 1.9'
 end

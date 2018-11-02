@@ -13,6 +13,8 @@ Under construction...
 - implement all specs
   - use fixtures or factories
 - figure out why errors aren't raised inside callbacks
+  - maybe build lib without thread support
+  - otherwise experiment with threads
 - cross-platformatisation
   - create docker instances for testing
   - check Windows locations in ext.rb

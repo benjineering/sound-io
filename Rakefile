@@ -2,8 +2,8 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'rake/extensiontask'
 
-EXAMPLES_BASE_DIR = "examples/c"
-EXAMPLES_BIN_DIR = "bin/examples"
+EXAMPLES_BASE_DIR = 'examples/c'
+EXAMPLES_BIN_DIR = 'bin/examples'
 
 CLEAN << EXAMPLES_BIN_DIR
 
@@ -21,8 +21,6 @@ task 'compile:examples' => :clean do
   lib_path = case Gem::Platform::local.os
   when 'darwin' || 'linux'
     '/usr/local/lib'
-  when 'windows'
-    'C:/libsoundio/lib'
   else
     raise "Unssuported OS: #{Gem::Platform::local.os}"
   end
@@ -33,6 +31,7 @@ task 'compile:examples' => :clean do
     exe_name = File.basename(c_file, '.c')
     libm = exe_name == 'play' ? '-lm' : ''
     out_path = "#{EXAMPLES_BIN_DIR}/#{exe_name}"
+
     puts `cc #{c_file} -L#{lib_path} -lsoundio #{libm} -o #{out_path}`
   end
 end

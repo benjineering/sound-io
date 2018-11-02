@@ -25,8 +25,6 @@ module SoundIO
 		'soundio'
 	when 'linux'
 		'libsoundio.so.1'
-	when 'windows'
-		'libsoundio.dll'
 	else
 		raise "OS not supported: #{Gem::Platform::local.os}"
 	end
