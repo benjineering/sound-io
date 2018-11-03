@@ -30,7 +30,6 @@ task 'compile:examples' => :clean do
     out_path = "#{EXAMPLES_BIN_DIR}/#{exe_name}"
 
     puts `cc #{c_file} -L#{lib_path} -lsoundio #{libm} -o #{out_path}`
-    puts `ldconfig` if OS == 'linux'
   end
 end
 
