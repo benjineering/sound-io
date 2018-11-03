@@ -6,7 +6,7 @@ FFI::Struct.class_eval do
     self[length_field].times.collect do |i|
 
       if type.is_a?(FFI::Enum)
-        num = (self[field] + i).read(type.native_type)
+        num = (self[field] + i * type.native_type.size).read(type.native_type)
         type[num]       
         
       elsif type < FFI::Struct

@@ -4,6 +4,7 @@ require 'rake/extensiontask'
 
 EXAMPLES_BASE_DIR = 'examples/c'
 EXAMPLES_BIN_DIR = 'bin/examples'
+OS = Gem::Platform::local.os
 
 CLEAN << EXAMPLES_BIN_DIR
 
@@ -15,15 +16,11 @@ end
 
 task build: :compile
 
-task 'compile:examples' => :clean do
-  Dir.mkdir(EXAMPLES_BIN_DIR)
+task 'compile:examples' => :clean do  
+  raise "Unssuported OS: #{OS}" unless OS == 'darwin' || OS == 'linux'
 
-  lib_path = case Gem::Platform::local.os
-  when 'darwin' || 'linux'
-    '/usr/local/lib'
-  else
-    raise "Unssuported OS: #{Gem::Platform::local.os}"
-  end
+  Dir.mkdir(EXAMPLES_BIN_DIR)
+  lib_path = '/usr/local/lib'
 
   raise "#{lib_path} not found" unless File.exist?(lib_path)
 
@@ -33,6 +30,7 @@ task 'compile:examples' => :clean do
     out_path = "#{EXAMPLES_BIN_DIR}/#{exe_name}"
 
     puts `cc #{c_file} -L#{lib_path} -lsoundio #{libm} -o #{out_path}`
+    puts `ldconfig` if OS == 'linux'
   end
 end
 
