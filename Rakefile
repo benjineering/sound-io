@@ -10,9 +10,7 @@ CLEAN << EXAMPLES_BIN_DIR
 
 RSpec::Core::RakeTask.new(:spec)
 
-Rake::ExtensionTask.new ('sound_io') do |ext|
-  ext.lib_dir = 'lib/sound_io'
-end
+Rake::ExtensionTask.new ('sound_io') { |ext| ext.lib_dir = 'lib/sound_io' }
 
 task build: :compile
 

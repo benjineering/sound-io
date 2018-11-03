@@ -1,9 +1,22 @@
 RSpec.describe SoundIO::Buffer do
-  skip '#areas'
-  
-  skip '#frame_count_ptr'
+  let(:buffer) { SoundIO::Buffer.new(8, 90) }
 
-  skip '#frame_count'
+  describe '.new' do
+    it 'sets the frame and channel counts' do
+      expect(buffer.frame_count).to eq 8
+      expect(buffer.channel_count).to eq 90
+    end
+  end
 
-  skip '#frame_count='
+  describe '#frame_count' do
+    it 'sets and gets the frame count' do
+      expect { buffer.frame_count = 513 }.to change { buffer.frame_count }.to 513
+    end
+  end
+
+  describe '#channel_count' do
+    it 'sets and gets the channel count' do
+      expect { buffer.channel_count = 3 }.to change { buffer.channel_count }.to 3
+    end
+  end
 end

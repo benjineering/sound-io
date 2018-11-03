@@ -23,7 +23,7 @@ module SoundIO
 
   private_constant :ChannelAreas
 
-  class Buffer
+  class BufferBak
     attr_reader :areas, :frame_count_ptr
 
     def initialize(frame_count, channel_count)

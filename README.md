@@ -6,7 +6,6 @@ Under construction...
 
 ### Roadmap
 
-- create helper to find library and headers
 - implement buffer in c
 - get specs passing in Windows Docker container
 - implement all specs
