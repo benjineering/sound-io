@@ -7,16 +7,11 @@ Under construction...
 ### Roadmap
 
 - implement buffer in c
-- get specs passing in Windows Docker container
 - implement all specs
   - use fixtures or factories
 - figure out why errors aren't raised inside callbacks
   - maybe build lib without thread support
   - otherwise experiment with threads
-- cross-platformatisation
-  - create docker instances for testing
-  - check Windows locations in ext.rb
-  - automate test running over Docker instances
 - write docs
 - release
   - take out `synthezise` gem and implement sine wave inline
