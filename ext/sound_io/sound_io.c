@@ -61,8 +61,6 @@ VALUE buffer_allocate_data(VALUE self) {
   return Qnil;
 }
 
-
-
 void Init_sound_io() {
   rb_mSoundIO = rb_define_module("SoundIO");
   rb_define_const(rb_mSoundIO, "MAX_CHANNELS", UINT2NUM(SOUNDIO_MAX_CHANNELS));

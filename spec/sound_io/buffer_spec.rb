@@ -1,7 +1,7 @@
 RSpec.describe SoundIO::Buffer do
   let(:buffer) { SoundIO::Buffer.new(8, 90) }
 
-  describe '.new' do
+  describe '.new, #channel_count and #sample_count' do
     it 'sets the sample and channel counts' do
       expect(buffer.channel_count).to eq 8
       expect(buffer.sample_count).to eq 90
